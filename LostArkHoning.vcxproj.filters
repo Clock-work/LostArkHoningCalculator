@@ -33,4 +33,8 @@
   <ItemGroup>
     <Text Include="LostArkCalculatorConfig.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include="LICENSE" />
+  </ItemGroup>
 </Project>
