@@ -1,0 +1,49 @@
+Edit all config values here according to your market prices and your Gear Honing Level 
+
+
+
+Currency Exchange Buy Crystals
+Gold Cost:805,810
+Crystals gained:95
+
+How much Silver would 1 Gold be worth for you?(the gold exchange vendor would give 100 Silver for 1 Gold):500
+
+
+
+Auction House Market Prices
+Honor Leapstone:100,120,110
+Great Honor Leapstone:332,420,389
+Simple Oreha Fusion Material:11,14,11
+Basic Oreha Fusion Material:14,20,13
+Destruction Stone Crystal(for 10):80,72,46,41
+Guardian Stone Crystal(for 10):52,49,33,31
+Solar Grace:45,70,45
+Solar Blessing:186,220,158
+Solar Protection:405,499,396
+
+
+Honing Config
+Are you using the Item Level 1340 Set with Great Honor Leapstones?(true/false):false
+Your current Base Honing Success Rate without Solar stuff after failing an upgrade (otherwise leave at 0):0
+The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):9
+
+
+Marys Shop
+Honor Leapstone Amount:10
+Honor Leapstone Crystal Cost:20
+Greater Honor Leapstone Amount:5
+Greater Honor Leapstone Crystal Cost:50
+Simple Oreha Fusion Material Amount(in chest):10
+Simple Oreha Fusion Material Crystal Cost:30
+Basic Oreha Fusion Material Amount(in chest):10
+Basic Oreha Fusion Material Crystal Cost:40
+Destruction Stone Crystal Amount:300
+Destruction Stone Crystal Crystal Cost:240
+Guardian Stone Crystal Amount:200
+Guardian Stone Crystal Crystal Cost:50
+Solar Grace Amount:20
+Solar Grace Crystal Cost:80
+Solar Blessing Amount:15
+Solar Blessing Crystal Cost:150
+Solar Protection Amount:3
+Solar Protection Crystal Cost:150
