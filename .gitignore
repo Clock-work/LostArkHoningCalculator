@@ -1,0 +1,23 @@
+#exclude .vs
+/.vs
+
+#exclude builds
+/build-Win64-Release-Static
+/build-Win64-Debug-Static
+/build-Win32-Release-Static
+/build-Win32-Debug-Static
+/build-Win64-Release-Dynamic
+/build-Win64-Debug-Dynamic
+/build-Win32-Release-Dynamic
+/build-Win32-Debug-Dynamic
+/build-Lin64-Release-Static
+/build-Lin64-Debug-Static
+/build-Lin32-Release-Static
+/build-Lin32-Debug-Static
+/build-Lin64-Release-Dynamic
+/build-Lin64-Debug-Dynamic
+/build-Lin32-Release-Dynamic
+/build-Lin32-Debug-Dynamic
+/bin
+
+CmakeSettings.json

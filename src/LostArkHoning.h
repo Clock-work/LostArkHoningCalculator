@@ -63,6 +63,8 @@ static int maBlessingC = 0;
 static int maProtectionA = 0;
 static int maProtectionC = 0;
 
+static const int MAX_HONING_TRIES = 6;//recursion stop to avoid the program taking too much ram
+
 static void replaceConfig()
 {
 	std::vector<std::string> lines;
@@ -208,7 +210,7 @@ struct HoningResult
 	const int solarProtectionUsed = 0;
 
 	HoningResult(int solarGraceUsed, int solarBlessingUsed, int solarProtectionUsed)
-		: solarGraceUsed(solarGraceUsed), solarBlessingUsed(solarBlessingUsed), solarProtectionUsed(solarProtectionUsed)
+		: tryNumber(1), solarGraceUsed(solarGraceUsed), solarBlessingUsed(solarBlessingUsed), solarProtectionUsed(solarProtectionUsed)
 	{
 
 	}
@@ -226,6 +228,7 @@ struct HoningResult
 		{
 			float cost = 0.0f;
 			float nextArtisansEnergy = artisansEnergy;
+			int tryNumber = MAX_HONING_TRIES;
 			for ( float currentHoningRate = honingRate; currentHoningRate < 99.99f; currentHoningRate += 1.0f )
 			{
 				cost += honingCost * honingCostMultiplier;
@@ -235,6 +238,9 @@ struct HoningResult
 					break;
 				}
 				nextArtisansEnergy += ARTISANS_ENERGY_MULTIPLIER * currentHoningRate;
+				tryNumber++;
+				if ( tryNumber > 10 )
+					currentHoningRate -= 1.0f;
 			}
 			return cost;
 		}
@@ -248,15 +254,19 @@ struct HoningResult
 		{
 			float tries = 0.0f;
 			float nextArtisansEnergy = artisansEnergy;
+			int tryNumber = MAX_HONING_TRIES;
 			for ( float currentHoningRate = honingRate; currentHoningRate < 99.99f; currentHoningRate += 1.0f )
 			{
 				tries += tryMultiplier;
-				tryMultiplier *= 1.0f - honingRate / 100.0f;
+				tryMultiplier *= 1.0f - currentHoningRate / 100.0f;
 				if ( nextArtisansEnergy > 99.499f )
 				{
 					break;
 				}
 				nextArtisansEnergy += ARTISANS_ENERGY_MULTIPLIER * currentHoningRate;
+				tryNumber++;
+				if ( tryNumber > 10 )
+					currentHoningRate -= 1.0f;
 			}
 			return tries;
 		}
@@ -698,6 +708,10 @@ inline HoningChainElement honingChainStep(HoningResult resultParams, HoningRates
 	{
 		nextAdditionalHoningChanceFromFail = additionalHoningChanceFromFailing + 1.0f;
 	}
+	if ( resultParams.tryNumber > 10 ) // no longer additional base chance after 10 failed tries 
+	{
+		nextAdditionalHoningChanceFromFail = additionalHoningChanceFromFailing;
+	}
 	float additionalSolarHoningChance = solarGraceAmountToUse * baseHoningRates.solarGraceChance + solarBlessingAmountToUse * baseHoningRates.solarBlessingChance + solarProtectionAmountToUse * baseHoningRates.solarProtectionChance;
 	if ( additionalSolarHoningChance > 34.01f )
 	{//upper limit for honing materials 
@@ -723,7 +737,7 @@ inline HoningChainElement honingChainStep(HoningResult resultParams, HoningRates
 		return HoningChainElement(result, honingChainStep(resultParams.createNewParams(nextArtisansEnergy, 0, 0, 0), baseHoningRates, baseHoningCost, nextAdditionalHoningChanceFromFail));
 	}
 
-	if ( resultParams.tryNumber == 6 )
+	if ( resultParams.tryNumber == MAX_HONING_TRIES )
 	{
 		resultParams.tryNumber = -1;
 		return HoningChainElement(result);

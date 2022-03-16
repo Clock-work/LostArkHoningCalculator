@@ -31,10 +31,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="LostArkCalculatorConfig.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="README.md" />
     <None Include="LICENSE" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="LostArkCalculatorConfig.txt" />
   </ItemGroup>
 </Project>
