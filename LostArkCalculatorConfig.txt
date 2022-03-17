@@ -1,3 +1,4 @@
+Config Version(Don't change!):1
 Edit all config values here according to your market prices and your Gear Honing Level 
 
 

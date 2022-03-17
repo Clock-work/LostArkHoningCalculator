@@ -28,8 +28,12 @@ int main()
 		std::cout << std::endl << "Started T3 Lost Ark Calculator" << std::endl;
 		std::cout << std::endl << "This will show you the most effecient way to hone your gear including artisans energy and everything" << std::endl << std::endl;
 		std::cout << std::endl << "After +12 The Program can take a few minutes to calculate and needs 8 GB of free RAM!" << std::endl << std::endl;
-		if ( !parseConfig() )
+		if ( loadConfig() )
+		{
+			std::cout << "Please edit the config \"LostArkCalculatorConfig.txt\" file with your market prices and honing level and restart the program" << std::endl;
+			std::cin.get();
 			return 1;
+		}
 
 		printMarysShop();
 

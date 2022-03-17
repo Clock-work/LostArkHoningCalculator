@@ -11,6 +11,29 @@ float howMuchCheaper(float cheaperTarget, float expensiveSource)
 	return ( 1.0f - cheaperTarget / expensiveSource ) * 100.0f;
 }
 
+bool isLess(float less, float more)
+{
+	return less < more - 0.000001f;
+}
+
+bool isMore(float more, float less)
+{
+	return more > less + 0.000001f;
+}
+
+template <typename T> 
+std::string to_string_noZeros(const T& t)
+{
+	std::string str { std::to_string(t) };
+	int offset { 1 };
+	if ( str.find_last_not_of('0') == str.find('.') )
+	{
+		offset = 0;
+	}
+	str.erase(str.find_last_not_of('0') + offset, std::string::npos);
+	return str;
+}
+
 inline void roundUpTo2DecimalsIfPossible(double& input)
 {
 	int number = input * 100;

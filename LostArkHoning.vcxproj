@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Config.h" />
+    <ClInclude Include="src\ConfigStructs.h" />
     <ClInclude Include="src\HoningParameter.h" />
     <ClInclude Include="src\LostArkHoning.h" />
     <ClInclude Include="src\Utils.h" />
