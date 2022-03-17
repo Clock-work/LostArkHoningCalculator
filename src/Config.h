@@ -77,41 +77,41 @@ inline bool loadConfig()
 	{
 		ConfigFile configFile { configPath, configVersion};
 
-		float crystalCost = configFile.getNextValueFloat(0.1f, 1.0f, "Edit all config values here according to your market prices and your Gear Honing Level \n\n\n\nCurrency Exchange Buy Crystals\nGold Cost");
-		float crystalAmount = configFile.getNextValueFloat(0.1f, 1.0f, "Crystals gained");
+		float crystalCost = configFile.getNextValueFloat(0.1f, 765.0f, "Edit all config values here according to your market prices and your Gear Honing Level \n\n\n\nCurrency Exchange Buy Crystals\nGold Cost");
+		float crystalAmount = configFile.getNextValueFloat(0.1f, 95.0f, "Crystals gained");
 		MarysPrices::crystalPrice = crystalCost / crystalAmount;
 
-		HoningConfig::silverAmountPerGold = configFile.getNextValueFloat(0.1f, 1.0f, "\nHow much Silver would 1 Gold be worth for you?(the gold exchange vendor would give 100 Silver for 1 Gold)");
+		HoningConfig::silverAmountPerGold = configFile.getNextValueFloat(0.1f, 500.0f, "\nHow much Silver would 1 Gold be worth for you?(the gold exchange vendor would give 100 Silver for 1 Gold)");
 
-		MarketPrices::honorLeapstone = configFile.getNextValueFloat(0.1f, 1.0f, "\n\n\nAuction House Market Prices\nHonor Leapstone");
-		MarketPrices::greaterHonorLeapstone = configFile.getNextValueFloat(0.1f, 1.0f, "Great Honor Leapstone");
+		MarketPrices::honorLeapstone = configFile.getNextValueFloat(0.1f, 93.0f, "\n\n\nAuction House Market Prices\nHonor Leapstone");
+		MarketPrices::greaterHonorLeapstone = configFile.getNextValueFloat(0.1f, 400.0f, "Great Honor Leapstone");
 
-		MarketPrices::simpleFusion = configFile.getNextValueFloat(0.1f, 1.0f, "Simple Oreha Fusion Material");
-		MarketPrices::basicFusion = configFile.getNextValueFloat(0.1f, 1.0f, "Basic Oreha Fusion Material");
+		MarketPrices::simpleFusion = configFile.getNextValueFloat(0.1f, 11.0f, "Simple Oreha Fusion Material");
+		MarketPrices::basicFusion = configFile.getNextValueFloat(0.1f, 12.0f, "Basic Oreha Fusion Material");
 
-		MarketPrices::destructionStone = configFile.getNextValueFloat(0.1f, 1.0f, "Destruction Stone Crystal(for 10)") / 10.0f;//price per 10 stones
-		MarketPrices::guardianStone = configFile.getNextValueFloat(0.1f, 1.0f, "Guardian Stone Crystal(for 10)") / 10.0f;
+		MarketPrices::destructionStone = configFile.getNextValueFloat(0.1f, 37.0f, "Destruction Stone Crystal(for 10)") / 10.0f;//price per 10 stones
+		MarketPrices::guardianStone = configFile.getNextValueFloat(0.1f, 24.0f, "Guardian Stone Crystal(for 10)") / 10.0f;
 
-		MarketPrices::solarGrace = configFile.getNextValueFloat(0.1f, 1.0f, "Solar Grace");
-		MarketPrices::solarBlessing = configFile.getNextValueFloat(0.1f, 1.0f, "Solar Blessing");
-		MarketPrices::solarProtection = configFile.getNextValueFloat(0.1f, 1.0f, "Solar Protection");
+		MarketPrices::solarGrace = configFile.getNextValueFloat(0.1f, 51.0f, "Solar Grace");
+		MarketPrices::solarBlessing = configFile.getNextValueFloat(0.1f, 171.0f, "Solar Blessing");
+		MarketPrices::solarProtection = configFile.getNextValueFloat(0.1f, 385.0f, "Solar Protection");
 
 		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, false, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
-		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 1.0f, "Your current Base Honing Success Rate without Solar stuff after failing previous upgrades (otherwise leave at 0)");
-		HoningConfig::itemHoningLevel = configFile.getNextValueFloat(0.1f, 1.0f, "The current Honing Item Level of your Gear (the number on your Gear from 0 to 19)");
+		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar stuff after failing previous upgrades (otherwise leave at 0)");
+		HoningConfig::itemHoningLevel = configFile.getNextValueFloat(0.1f, 0.0f, "The current Honing Item Level of your Gear (the number on your Gear from 0 to 19)");
 
-		MarysPrices::honorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "\n\nMarys Shop\nHonor Leapstone Amount", 1.0f, "Honor Leapstone Crystal Cost"));
-		MarysPrices::greaterHonorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "Greater Honor Leapstone Amount", 1.0f, "Greater Honor Leapstone Crystal Cost"));
+		MarysPrices::honorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 10.0f, "\n\nMarys Shop\nHonor Leapstone Amount", 20.0f, "Honor Leapstone Crystal Cost"));
+		MarysPrices::greaterHonorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 5.0f, "Greater Honor Leapstone Amount", 50.0f, "Greater Honor Leapstone Crystal Cost"));
 
-		MarysPrices::simpleFusion = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "Simple Oreha Fusion Material Amount(in chest)", 1.0f, "Simple Oreha Fusion Material Crystal Cost"));
-		MarysPrices::basicFusion = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "Basic Oreha Fusion Material Amount(in chest)", 1.0f, "Basic Oreha Fusion Material Crystal Cost"));
+		MarysPrices::simpleFusion = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 10.0f, "Simple Oreha Fusion Material Amount(in chest)", 30.0f, "Simple Oreha Fusion Material Crystal Cost"));
+		MarysPrices::basicFusion = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 10.0f, "Basic Oreha Fusion Material Amount(in chest)", 40.0f, "Basic Oreha Fusion Material Crystal Cost"));
 
-		MarysPrices::destructionStone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "Destruction Stone Crystal Amount", 1.0f, "Destruction Stone Crystal Crystal Cost"));
-		MarysPrices::guardianStone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "Guardian Stone Crystal Amount", 1.0f, "Guardian Stone Crystal Crystal Cost"));
+		MarysPrices::destructionStone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 300.0f, "Destruction Stone Crystal Amount", 240.0f, "Destruction Stone Crystal Crystal Cost"));
+		MarysPrices::guardianStone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 200.0f, "Guardian Stone Crystal Amount", 50.0f, "Guardian Stone Crystal Crystal Cost"));
 		
-		MarysPrices::solarGrace = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "Solar Grace Amount", 1.0f, "Solar Grace Crystal Cost"));
-		MarysPrices::solarBlessing = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "Solar Blessing Amount", 1.0f, "Solar Blessing Crystal Cost"));
-		MarysPrices::solarProtection = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 1.0f, "Solar Protection Amount", 1.0f, "Solar Protection Crystal Cost"));
+		MarysPrices::solarGrace = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 20.0f, "Solar Grace Amount", 80.0f, "Solar Grace Crystal Cost"));
+		MarysPrices::solarBlessing = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 15.0f, "Solar Blessing Amount", 150.0f, "Solar Blessing Crystal Cost"));
+		MarysPrices::solarProtection = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 3.0f, "Solar Protection Amount", 150.0f, "Solar Protection Crystal Cost"));
 
 		return configFile.writeChanges();
 	}

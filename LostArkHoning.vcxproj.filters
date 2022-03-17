@@ -42,6 +42,7 @@
   <ItemGroup>
     <None Include="README.md" />
     <None Include="LICENSE" />
+    <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="LostArkCalculatorConfig.txt" />
