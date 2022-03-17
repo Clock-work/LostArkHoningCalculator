@@ -84,21 +84,21 @@ struct HoningResult
 		int counter = 0;
 		if ( honingInput.solarGraceToUse > 0 )
 		{
-			std::cout << honingInput.solarGraceToUse << " Solar Grace";
+			std::cout << (int) honingInput.solarGraceToUse << " Solar Grace";
 			counter++;
 		}
 		if ( honingInput.solarBlessingToUse > 0 )
 		{
 			if ( counter > 0 )
 				std::cout << ", ";
-			std::cout << honingInput.solarBlessingToUse << " Solar Blessing";
+			std::cout << (int)honingInput.solarBlessingToUse << " Solar Blessing";
 			counter++;
 		}
 		if ( honingInput.solarProtectionToUse > 0 )
 		{
 			if ( counter > 0 )
 				std::cout << ", ";
-			std::cout << honingInput.solarProtectionToUse << " Solar Protection";
+			std::cout << (int) honingInput.solarProtectionToUse << " Solar Protection";
 			counter++;
 		}
 		if ( counter > 0 )
