@@ -27,12 +27,14 @@ struct HoningInput
 	float getAdditionalHoningChanceFromFailing(const HoningParameter& baseHoningRates) const
 	{
 		float additionalHoningChance = 0.0f;
-		for ( short i = 1; i < std::min(tryNumber, (short)11); ++i )//after 10 failed tries there is no additional base chance
+		float baseHoningChance = getBaseHoningSuccessRate(baseHoningRates);
+		for ( short i = 1; i < std::min(tryNumber, (short) 11); ++i )//after 10 failed tries there is no additional base chance (only 100% of the base chance can be added)
 		{
-			if ( i == 1 )// 10% of base honing chance added on first failure
-				additionalHoningChance += baseHoningRates.successRateAsDecimal * 0.1f;
-			else// for every following failure, 1% chance is added 
-				additionalHoningChance += 1.0f;
+			//if ( i == 1 )// 10% of base honing chance added on first failure
+			//	additionalHoningChance += baseHoningRates.successRateAsDecimal * 0.1f;
+			//else// for every following failure, 1% chance is added 
+				//additionalHoningChance += 1.0f;
+			additionalHoningChance += baseHoningRates.successRateAsDecimal * 0.1f;//nevermind, NEW: always 10% of chance is added 
 		}
 		return additionalHoningChance;
 	}

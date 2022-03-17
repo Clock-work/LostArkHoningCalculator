@@ -21,6 +21,11 @@ bool isMore(float more, float less)
 	return more > less + 0.000001f;
 }
 
+bool isMoreOrEqual(float more, float less)
+{
+	return more >= less - 0.000001f;
+}
+
 template <typename T> 
 std::string to_string_noZeros(const T& t)
 {
