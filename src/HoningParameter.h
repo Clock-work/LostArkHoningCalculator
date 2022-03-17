@@ -13,7 +13,9 @@ struct HoningParameter
 	//the multiplier that is multiplied to the default solar amount values 
 	int maxSolarAmountMultiplier;
 
+	//total base gold cost for weapon honing 
 	float baseHoningCostWeapon;
+	//total base gold cost for armour honing 
 	float baseHoningCosArmour;
 
 	//successRateAsDecimal is the percent chance for success

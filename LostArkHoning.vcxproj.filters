@@ -33,6 +33,15 @@
     <ClInclude Include="src\ConfigStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\HoningInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HoningResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HoningChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">

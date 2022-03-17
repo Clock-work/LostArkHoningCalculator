@@ -18,6 +18,8 @@ namespace HoningConfig {
 	static const float GRACE_TO_BLESSING_MULTIPLIER = 2.0;
 	//effectiveness multiplier for the chance
 	static const float BLESSING_TO_PROTECTION_MULTIPLIER = 3.0;
+	//the limit of the added honing chance from solar material combined
+	static const float MAX_ADDITIONAL_SOLAR_CHANCE = 34.01f;
 
 	//the multiplier to the base chance that gets added as artisans energy on a failed honing attempt
 	static const float ARTISANS_ENERGY_MULTIPLIER = 0.465;
