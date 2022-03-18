@@ -27,7 +27,6 @@ struct HoningInput
 	float getAdditionalHoningChanceFromFailing(const HoningParameter& baseHoningRates) const
 	{
 		float additionalHoningChance = 0.0f;
-		float baseHoningChance = getBaseHoningSuccessRate(baseHoningRates);
 		for ( short i = 1; i < std::min(tryNumber, (short) 11); ++i )//after 10 failed tries there is no additional base chance (only 100% of the base chance can be added)
 		{
 			//if ( i == 1 )// 10% of base honing chance added on first failure
@@ -67,8 +66,13 @@ struct HoningInput
 	}
 
 	//returns the total cost including the additional cost of the solar pieces used and the cost of the base honing materials 
+	//if the additional solar materials used are too much, then it will return the highest possible cost
 	float getTotalHoningCost(const HoningParameter& honingParameter, bool isWeapon) const
 	{
+		if ( isMore(getAdditionalSolarSuccessRate(honingParameter), HoningConfig::MAX_ADDITIONAL_SOLAR_CHANCE) )
+		{
+			return 999999999999.0f;
+		}
 		return honingParameter.getBaseHoningCost(isWeapon) + getAdditionalSolarCost();
 	}
 

@@ -23,8 +23,6 @@ namespace HoningConfig {
 
 	//the multiplier to the base chance that gets added as artisans energy on a failed honing attempt
 	static const float ARTISANS_ENERGY_MULTIPLIER = 0.465;
-	//recursion stop to avoid the program taking too much ram
-	static const int MAX_HONING_TRIES = 6;
 
 	//how much silver 1 gold would be worth
 	static int silverAmountPerGold;

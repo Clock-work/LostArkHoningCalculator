@@ -8,7 +8,7 @@ inline float getAverageCostOfHoningChain(const std::vector<HoningResult>& honing
 	float honingCostMultiplier = 1.0f;
 	for ( const HoningResult& result : honingChain )
 	{
-		cost += result.getHoningCost(honingParameter, isWeapon, honingCostMultiplier);
+		cost += result.honingInput.getTotalHoningCost(honingParameter, isWeapon) * honingCostMultiplier;
 		honingCostMultiplier *= 1.0f - result.honingInput.getTotalHoningSuccessRate(honingParameter) / 100.0f;
 	}
 	return cost;
@@ -19,7 +19,7 @@ inline float getAverageTriesOfHoningChain(const std::vector<HoningResult>& honin
 	float tryMultiplier = 1.0f;
 	for ( const HoningResult& result : honingChain )
 	{
-		tries += result.getAverageTries(honingParameter, tryMultiplier);
+		tries += tryMultiplier;
 		tryMultiplier *= 1.0f - result.honingInput.getTotalHoningSuccessRate(honingParameter) / 100.0f;
 	}
 	return tries;
