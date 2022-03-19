@@ -18,21 +18,13 @@
 /build-Lin32-Release-Dynamic
 /build-Lin32-Debug-Dynamic
 
+CmakeSettings.json
+
+#include exe
+
 /build-Win64-Release-Static/*
 !/build-Win64-Release-Static/LostArkHoningCalculator
 /build-Win64-Release-Static/LostArkHoningCalculator/*
 !/build-Win64-Release-Static/LostArkHoningCalculator/bin
-
-CmakeSettings.json
-
-# exclude visual studio builds
-/bin/x64/Debug
-/bin/x64/Release/*
-
-#include exe
+/build-Win64-Release-Static/LostArkHoningCalculator/bin/*
 !*.exe
-
-
-!/build-Win64-Release-Static/LostArkHoningCalculator
-/build-Win64-Release-Static/LostArkHoningCalculator/*
-!/build-Win64-Release-Static/LostArkHoningCalculator/LostArkHoningCalculator.exe
