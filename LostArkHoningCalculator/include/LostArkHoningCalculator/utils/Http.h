@@ -1,7 +1,7 @@
 #pragma once 
 #include <string>
 
-namespace network {
+namespace utils {
 
 	struct HttpResult
 	{

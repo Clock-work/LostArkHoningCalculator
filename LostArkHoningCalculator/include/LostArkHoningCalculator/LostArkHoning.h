@@ -125,7 +125,7 @@ inline void getCheapestOrder(SolarToUse& firstVarUsed, SolarToUse& secondVarUsed
 	//the steps the counter moves for each solar thing IN ORDER OF THE SOLAR TYPES grace, blessing, protection
 	char addToCounterTable[] = { 1 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier };
 */
-inline void startNextChains(const std::function<void(int, int, int)>& createFunction, const HoningParameter& honingParameter, char* startSolarAmountTable, char* maxSolarAmountTable, char* addToCounterTable, bool logSteps)
+inline void startNextChains(const std::function<void(int, int, int)>& createFunction, const HoningParameter& honingParameter, char* startSolarAmountTable, char* maxSolarAmountTable, char* addToCounterTable)
 {
 	SolarToUse firstVarUsed;
 	SolarToUse secondVarUsed;
@@ -145,25 +145,17 @@ inline void startNextChains(const std::function<void(int, int, int)>& createFunc
 	else
 		addToStartValue--;
 
-	if(logSteps )
-		std::cout << "Calculating 1/3... " << std::endl;
 	solarInput[firstVarUsed] = ITERATE_COUNTER;
 	//iterate from 0 0 0 to n 0 0
 	iterateFunction(startSolarAmountTable[(char) firstVarUsed], maxSolarAmountTable[(char)firstVarUsed], addToCounterTable[firstVarUsed], createFunction, solarInput[GRACE], solarInput[BLESSING], solarInput[PROTECTION]);
 	solarInput[firstVarUsed] = maxSolarAmountTable[(char) firstVarUsed];
 	solarInput[secondVarUsed] = ITERATE_COUNTER;
-	if ( logSteps )
-		std::cout << "Calculating 2/3... " << std::endl;
 	//iterate from max 1 0 to max n 0
 	iterateFunction(startSolarAmountTable[(char) secondVarUsed] + addToStartValue, maxSolarAmountTable[(char) secondVarUsed], addToCounterTable[secondVarUsed], createFunction, solarInput[GRACE], solarInput[BLESSING], solarInput[PROTECTION]);
 	solarInput[secondVarUsed] = maxSolarAmountTable[(char) secondVarUsed];
 	solarInput[thirdVarUsed] = ITERATE_COUNTER;
-	if ( logSteps )
-		std::cout << "Calculating 3/3... " << std::endl;
 	//iterate from max max 1 to max max n
 	iterateFunction(startSolarAmountTable[(char) thirdVarUsed] + addToStartValue, maxSolarAmountTable[(char) thirdVarUsed], addToCounterTable[thirdVarUsed], createFunction, solarInput[GRACE], solarInput[BLESSING], solarInput[PROTECTION]);
-	if ( logSteps )
-		std::cout << "Calculating Done!" << std::endl;
 }
 
 //starts at 1 for the first try and not at zero
@@ -195,6 +187,7 @@ inline HoningChainElement honingChainStep(const HoningParameter& honingParameter
 	char addToCounterTableVariant1[] = { -1 , -1, -1 };
 	char addToCounterTableVariant2[] = { -6 * honingParameter.maxSolarAmountMultiplier, -3 * honingParameter.maxSolarAmountMultiplier, -1 * honingParameter.maxSolarAmountMultiplier };
 	char* addToCounterTable = addToCounterTableVariant1;
+	// after 50% artisans energy use smaller increments for the counter which takes more time
 	if ( honingInput.getNextArtisansEnergy(honingParameter) < 50.0f )
 	{
 		addToCounterTable = addToCounterTableVariant2;
@@ -237,7 +230,7 @@ inline HoningChainElement honingChainStep(const HoningParameter& honingParameter
 	};
 
 
-	startNextChains(createFunction, honingParameter, startSolarAmountTable, maxSolarAmountTable, addToCounterTable, false);
+	startNextChains(createFunction, honingParameter, startSolarAmountTable, maxSolarAmountTable, addToCounterTable);
 	return combinedHoningChain;
 
 }
@@ -267,7 +260,7 @@ inline std::vector<HoningResult> startHoningChain(const HoningParameter& honingP
 		}
 	};
 
-	startNextChains(createFunction, honingParameter, startSolarAmountTable, maxSolarAmountTable, addToCounterTable, true);
+	startNextChains(createFunction, honingParameter, startSolarAmountTable, maxSolarAmountTable, addToCounterTable);
 	return bestHoningChain;
 }
 
@@ -275,11 +268,11 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 {
 	HoningParameter honingParameter { currentItemHoningLevel + 1, isIlvl1340Set};
 
-	std::cout << "Calculating Weapon Honing cost." << std::endl;
+	std::cout << "Calculating Weapon Honing cost..." << std::endl;
 	auto honingChainWeapon = startHoningChain(honingParameter, true);
 	float avgGoldCostWeapon = getAverageCostOfHoningChain(honingChainWeapon, honingParameter, true);
 
-	std::cout << "Calculating Armour Honing cost." << std::endl;
+	std::cout << "Calculating Armour Honing cost..." << std::endl;
 	auto honingChainArmour= startHoningChain(honingParameter, false);
 	float avgGoldCostArmour = getAverageCostOfHoningChain(honingChainArmour, honingParameter, false);
 

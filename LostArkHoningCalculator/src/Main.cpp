@@ -1,6 +1,8 @@
 #include "LostArkHoningCalculator/LostArkHoning.h"
+#include "LostArkHoningCalculator/Config.h"
+#include "LostArkHoningCalculator/utils/Http.h"
 
-inline void printMarysShop()
+void printMarysShop()
 {
 	std::cout << std::endl << "Printing how much cheaper the following Materials would be from Marys Shop" << std::endl;
 	std::cout << std::endl << "Negative Numbers mean that it's more expensive!" << std::endl;
@@ -21,6 +23,30 @@ inline void printMarysShop()
 	std::cout << std::endl << std::endl;
 }
 
+bool hasNewVersion()
+{
+	utils::HttpResult result = utils::httpGet("raw.githubusercontent.com", "https://raw.githubusercontent.com/Clock-work/LostArkHoningCalculator/main/LostArkHoningCalculator/include/LostArkHoningCalculator/Config.h");
+	std::vector<std::string> lines = splitString(result.resultData, '\n');
+	float newVersion = 0.0f;
+	for ( std::string& line : lines )
+	{
+		if ( line.find("static float configVersion =") != std::string::npos )
+		{
+			std::vector<std::string> parts = splitString(line, '=');
+			std::string versionString = line.substr(line.find('=') + 1);
+			versionString = versionString.substr(0, versionString.find(';'));
+			versionString.erase(std::remove(versionString.begin(), versionString.end(), ' '), versionString.end());
+			newVersion = std::stof(versionString);
+		}
+	}
+
+	if ( isMore(newVersion, configVersion) )
+	{
+		return true;
+	}
+	return false;
+}
+
 int main()
 {
 	try
@@ -33,6 +59,15 @@ int main()
 		{
 			std::cout << "The config file has changed with new options, or was just created." << std::endl;
 			std::cout << "Please edit the config \"LostArkCalculatorConfig.txt\" file with your market prices and honing level and restart the program!" << std::endl;
+			sleep(1500);
+			std::cin.get();
+			return 1;
+		}
+
+		if ( hasNewVersion() )
+		{
+			std::cout << "A new Update is available on \"https://github.com/Clock-work/LostArkHoningCalculator\". Download it now!!!" << std::endl << std::endl << std::endl;
+			sleep(1500);
 			std::cin.get();
 			return 1;
 		}

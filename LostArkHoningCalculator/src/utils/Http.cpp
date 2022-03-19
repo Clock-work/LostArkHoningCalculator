@@ -15,7 +15,7 @@
 #include "LostArkHoningCalculator/utils/StringManipulation.h"
 #include "LostArkHoningCalculator/utils/Functions.h"
 
-namespace network {
+namespace utils {
 
 	static void printTree(boost::property_tree::ptree const& pt)
 	{

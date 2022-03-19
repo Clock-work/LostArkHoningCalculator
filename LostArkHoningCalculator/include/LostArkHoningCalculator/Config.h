@@ -124,8 +124,7 @@ inline bool loadConfig()
 	}
 	catch ( const std::exception& e )
 	{
-		std::cout << std::string(std::string("Config loading error! Please check, or delete your config file!"), 1);
-		return false;
+		throw std::runtime_error("Config loading error! Please check, or delete your config file!");
 	}
 }
 
