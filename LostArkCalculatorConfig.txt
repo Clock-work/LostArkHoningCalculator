@@ -1,4 +1,4 @@
-Config Version(Don't change!):1
+Config Version(Don't change!):2
 Edit all config values here according to your market prices and your Gear Honing Level 
 
 
@@ -21,11 +21,13 @@ Guardian Stone Crystal(for 10):52,49,33,31,24
 Solar Grace:45,70,45,51
 Solar Blessing:186,220,158,171
 Solar Protection:405,499,396,385
+Small Honor Shard Pouch:42
 
 
 Honing Config
 Are you using the Item Level 1340 Set with Great Honor Leapstones?(true/false):false
 Your current Base Honing Success Rate without Solar stuff after failing an upgrade (otherwise leave at 0):0
+Also include Marys Shop prices for honing materials and use the cheapest for calculation:true
 The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):9
 
 

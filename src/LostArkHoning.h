@@ -57,9 +57,9 @@ inline void iterateFunction(char startValue, char maxCount, char addToCounter, c
 //which solar material should be iterated through first 
 inline void getCheapestOrder(SolarToUse& firstVarUsed, SolarToUse& secondVarUsed, SolarToUse& thirdVarUsed)
 {
-	bool isGraceCheaperThanBlessing = MarketPrices::solarGrace * HoningConfig::GRACE_TO_BLESSING_MULTIPLIER < MarketPrices::solarBlessing;
-	bool isGraceCheaperThanProtection = MarketPrices::solarGrace * HoningConfig::GRACE_TO_BLESSING_MULTIPLIER * HoningConfig::BLESSING_TO_PROTECTION_MULTIPLIER < MarketPrices::solarProtection;
-	bool isBlessingCheaperThanProtection = MarketPrices::solarBlessing * HoningConfig::BLESSING_TO_PROTECTION_MULTIPLIER < MarketPrices::solarProtection;
+	bool isGraceCheaperThanBlessing = getSolarGraceCost() * HoningConfig::GRACE_TO_BLESSING_MULTIPLIER < getSolarBlessingCost();
+	bool isGraceCheaperThanProtection = getSolarGraceCost() * HoningConfig::GRACE_TO_BLESSING_MULTIPLIER * HoningConfig::BLESSING_TO_PROTECTION_MULTIPLIER < getSolarProtectionCost();
+	bool isBlessingCheaperThanProtection = getSolarBlessingCost() * HoningConfig::BLESSING_TO_PROTECTION_MULTIPLIER < getSolarProtectionCost();
 	if ( isGraceCheaperThanBlessing )
 	{
 		if ( isGraceCheaperThanProtection )
@@ -284,7 +284,13 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 	float avgGoldCostArmour = getAverageCostOfHoningChain(honingChainArmour, honingParameter, false);
 
 
-	std::cout << std::endl << std::endl << std::endl << "Honing Calculation for your Gear from +" << currentItemHoningLevel << " to +" << currentItemHoningLevel + 1 << std::endl << std::endl << std::endl;
+	std::cout << std::endl << "Honing Calculation for your Gear from +" << currentItemHoningLevel << " to +" << currentItemHoningLevel + 1 << std::endl << std::endl;
+
+	if ( HoningConfig::useMarysShopPrices )
+		std::cout << "Marys shop prices will also be used for this calculation (you can change this in the config)" << std::endl << std::endl;
+	else
+		std::cout << "Marys shop prices will not be used for this calculation (you can change this in the config)" << std::endl << std::endl;
+
 
 	std::cout << std::endl << "Your Weapon has an average cost of " << avgGoldCostWeapon << " gold and needs on average " << getAverageTriesOfHoningChain(honingChainWeapon, honingParameter) << " tries." << std::endl << std::endl;
 

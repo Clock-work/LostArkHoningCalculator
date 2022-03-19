@@ -62,7 +62,7 @@ struct HoningInput
 	//returns the additional cost of the solar pieces used
 	float getAdditionalSolarCost() const
 	{
-		return solarGraceToUse * MarketPrices::solarGrace + solarBlessingToUse * MarketPrices::solarBlessing + solarProtectionToUse * MarketPrices::solarProtection;
+		return solarGraceToUse * getSolarGraceCost() + solarBlessingToUse * getSolarBlessingCost() + solarProtectionToUse * getSolarProtectionCost();
 	}
 
 	//returns the total cost including the additional cost of the solar pieces used and the cost of the base honing materials 

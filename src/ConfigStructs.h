@@ -146,7 +146,6 @@ private:
 	//first line is always the config version
 	std::vector<ConfigLine*> m_configLines;
 	bool m_hasChanged;
-	bool m_wasEmpty;
 	int m_currentLineCounter;
 
 	ConfigLine* createConfigLine(const std::string& line)
@@ -203,7 +202,7 @@ private:
 
 public:
 	ConfigFile(const std::string& configPath, float newConfigVersion)
-		: m_configPath(configPath), m_oldConfigVersion(0.1f), m_hasChanged(false), m_wasEmpty(false), m_currentLineCounter(0)
+		: m_configPath(configPath), m_oldConfigVersion(0.1f), m_hasChanged(false), m_currentLineCounter(0)
 	{
 		std::vector <std::string> lines = readUtf8FileToLines(configPath);
 		m_configLines.reserve(lines.size());
@@ -213,7 +212,6 @@ public:
 		}
 		if ( lines.size() == 0 )
 		{
-			m_wasEmpty = true;
 			m_oldConfigVersion = 0.0f;//no config file, so not the 0.1f for the config file before the version system
 		}
 		readConfigVersionLine(newConfigVersion);
@@ -260,7 +258,7 @@ public:
 		return std::make_tuple(value1, value2);
 	}
 
-	//returns if the config file was empty before
+	//writes the changes to the config file (if new options have been added) and returns if changes happened
 	bool writeChanges()
 	{
 		if ( m_hasChanged )
@@ -273,7 +271,7 @@ public:
 			}
 			writeUtf8FileFromLines(m_configPath, lines);
 		}
-		return m_wasEmpty;
+		return m_hasChanged;
 	}
 
 };

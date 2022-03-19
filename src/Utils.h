@@ -3,31 +3,32 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <thread>
 
 //returns how much cheaper the target is than the source in 1% to n%. 
 //a negative result means that the target is more expensive
-float howMuchCheaper(float cheaperTarget, float expensiveSource)
+inline float howMuchCheaper(float cheaperTarget, float expensiveSource)
 {
 	return ( 1.0f - cheaperTarget / expensiveSource ) * 100.0f;
 }
 
-bool isLess(float less, float more)
+inline bool isLess(float less, float more)
 {
 	return less < more - 0.000001f;
 }
 
-bool isMore(float more, float less)
+inline bool isMore(float more, float less)
 {
 	return more > less + 0.000001f;
 }
 
-bool isMoreOrEqual(float more, float less)
+inline bool isMoreOrEqual(float more, float less)
 {
 	return more >= less - 0.000001f;
 }
 
 template <typename T> 
-std::string to_string_noZeros(const T& t)
+inline std::string to_string_noZeros(const T& t)
 {
 	std::string str { std::to_string(t) };
 	int offset { 1 };
@@ -85,7 +86,7 @@ inline std::vector<std::vector<std::string>> splitVector(const std::vector<std::
 }
 
 //Simple function to read an utf8 file into lines splitted at \n
-static std::vector<std::string> readUtf8FileToLines(const std::string& filePath)
+inline std::vector<std::string> readUtf8FileToLines(const std::string& filePath)
 {
 	std::ifstream file(filePath);
 	std::vector<std::string> lines;
@@ -113,7 +114,7 @@ static std::vector<std::string> readUtf8FileToLines(const std::string& filePath)
 }
 
 //Simple function to write an utf8 file from lines splitted at \n
-static bool writeUtf8FileFromLines(const std::string& filePath, const std::vector<std::string>& lines)
+inline bool writeUtf8FileFromLines(const std::string& filePath, const std::vector<std::string>& lines)
 {
 	try
 	{
@@ -134,6 +135,11 @@ static bool writeUtf8FileFromLines(const std::string& filePath, const std::vecto
 		std::cout << std::string(std::string("error writing file: ") + filePath + " exception: " + e.what());
 	}
 	return false;
+}
+
+inline void sleep(int milleseconds)
+{
+	std::this_thread::sleep_for(std::chrono::milliseconds(milleseconds));
 }
 
 

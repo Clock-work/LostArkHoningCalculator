@@ -25,17 +25,23 @@ int main()
 {
 	try
 	{
-		std::cout << std::endl << "Started T3 Lost Ark Calculator" << std::endl;
-		std::cout << std::endl << "This will show you the most effecient way to hone your gear including artisans energy and everything" << std::endl << std::endl;
-		std::cout << std::endl << "After +12 The Program can take a few minutes to calculate and needs 8 GB of free RAM!" << std::endl << std::endl;
+		std::cout << std::endl << "Started T3 Lost Ark Calculator!" << std::endl << std::endl;
+		std::cout << std::endl << "This will show you the most effecient way to hone your gear including artisans energy and how much solar grace, blessing, protection to use." << std::endl << std::endl;
+		std::cout << std::endl << "The final cost does not include the upgrade cost of the first step with Silver and Honor shards!" << std::endl << std::endl;
+		std::cout << std::endl << "After +12 The Program can take a few minutes to calculate and needs 2 GB of free RAM!" << std::endl << std::endl;
 		if ( loadConfig() )
 		{
-			std::cout << "Please edit the config \"LostArkCalculatorConfig.txt\" file with your market prices and honing level and restart the program" << std::endl;
+			std::cout << "The config file has changed with new options, or was just created." << std::endl;
+			std::cout << "Please edit the config \"LostArkCalculatorConfig.txt\" file with your market prices and honing level and restart the program!" << std::endl;
 			std::cin.get();
 			return 1;
 		}
 
+		sleep(1500);
+
 		printMarysShop();
+
+		sleep(1500);
 
 		printHoningCalculation();
 	}

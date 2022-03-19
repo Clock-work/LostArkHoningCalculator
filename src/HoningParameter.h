@@ -100,6 +100,7 @@ private:
 		int fusionMat = 0;
 		int rawGoldCost = 0;
 		int silverCost = 16000;
+		float shardCost = MarketPrices::smallHonorShardPouch / 12.8f;
 
 		if ( targetItemHoningLevel >= 3 )
 		{
@@ -119,6 +120,7 @@ private:
 			fusionMat += 2;
 			rawGoldCost += 120;
 			silverCost += 1000;
+			shardCost = MarketPrices::smallHonorShardPouch / 6.76f;
 		}
 		if ( targetItemHoningLevel >= 10 )
 		{
@@ -146,10 +148,11 @@ private:
 
 		float goldCost = rawGoldCost + silverCost * ( 1.0f / static_cast<float>( HoningConfig::silverAmountPerGold ) );
 		if ( isIlvl1340Set )
-			goldCost += leapStones * MarketPrices::greaterHonorLeapstone + fusionMat * MarketPrices::basicFusion;
+			goldCost += leapStones * getGreaterHonorLeapstoneCost() + fusionMat * getBasicFusionCost();
 		else
-			goldCost += leapStones * MarketPrices::honorLeapstone + fusionMat * MarketPrices::simpleFusion;
-		goldCost += upgradeStones * MarketPrices::destructionStone;
+			goldCost += leapStones * getHonorLeapstoneCost() + fusionMat * getSimpleFusionCost();
+		goldCost += upgradeStones * getDestructionStoneCost();
+		goldCost += shardCost;
 		return goldCost;
 	}
 
@@ -160,6 +163,7 @@ private:
 		int fusionMat = 0;
 		int rawGoldCost = 0;
 		int silverCost = 11000;
+		float shardCost = MarketPrices::smallHonorShardPouch / 12.8f;
 
 		if ( targetItemHoningLevel >= 3 )
 		{
@@ -177,6 +181,7 @@ private:
 			upgradeStones += 36;
 			rawGoldCost += 70;
 			silverCost += 500;
+			shardCost = MarketPrices::smallHonorShardPouch / 6.76f;
 		}
 		if ( targetItemHoningLevel >= 10 )
 		{
@@ -204,10 +209,11 @@ private:
 
 		float goldCost = rawGoldCost + silverCost * ( 1.0f / static_cast<float>( HoningConfig::silverAmountPerGold ) );
 		if ( isIlvl1340Set )
-			goldCost += leapStones * MarketPrices::greaterHonorLeapstone + fusionMat * MarketPrices::basicFusion;
+			goldCost += leapStones * getGreaterHonorLeapstoneCost() + fusionMat * getBasicFusionCost();
 		else
-			goldCost += leapStones * MarketPrices::honorLeapstone + fusionMat * MarketPrices::simpleFusion;
-		goldCost += upgradeStones * MarketPrices::guardianStone;
+			goldCost += leapStones * getHonorLeapstoneCost() + fusionMat * getSimpleFusionCost();
+		goldCost += upgradeStones * getGuardianStoneCost();
+		goldCost += shardCost;
 		return goldCost;
 	}
 

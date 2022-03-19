@@ -4,7 +4,7 @@
 
 static const std::string configPath = "LostArkCalculatorConfig.txt";
 
-static float configVersion = 1.0f;
+static float configVersion = 2.0f;
 
 namespace HoningConfig {
 	//default maximum amount that can be used per upgrade
@@ -31,6 +31,7 @@ namespace HoningConfig {
 	static int itemHoningLevel;
 	static float baseHoningSuccessRate;
 	static bool isIlvl1340Set;
+	static bool useMarysShopPrices;
 }
 
 namespace MarketPrices {
@@ -45,6 +46,7 @@ namespace MarketPrices {
 	static float solarGrace;
 	static float solarBlessing;
 	static float solarProtection;
+	static float smallHonorShardPouch;
 }
 
 //the prices are already converted to gold and are not in crystals!
@@ -98,8 +100,11 @@ inline bool loadConfig()
 		MarketPrices::solarBlessing = configFile.getNextValueFloat(0.1f, 171.0f, "Solar Blessing");
 		MarketPrices::solarProtection = configFile.getNextValueFloat(0.1f, 385.0f, "Solar Protection");
 
+		MarketPrices::smallHonorShardPouch = configFile.getNextValueFloat(2.0f, 42.0f, "Small Honor Shard Pouch");
+
 		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, false, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
-		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar stuff after failing previous upgrades (otherwise leave at 0)");
+		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar materials after already failing some previous upgrades (otherwise leave at 0)");
+		HoningConfig::useMarysShopPrices = configFile.getNextValueBool(2.0f, true, "Also include Marys Shop prices for honing materials and use the cheapest for calculation");
 		HoningConfig::itemHoningLevel = configFile.getNextValueFloat(0.1f, 0.0f, "The current Honing Item Level of your Gear (the number on your Gear from 0 to 19)");
 
 		MarysPrices::honorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 10.0f, "\n\nMarys Shop\nHonor Leapstone Amount", 20.0f, "Honor Leapstone Crystal Cost"));
@@ -122,4 +127,76 @@ inline bool loadConfig()
 		std::cout << std::string(std::string("Config loading error! Please check, or delete your config file!"), 1);
 		return false;
 	}
+}
+
+inline float getHonorLeapstoneCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::honorLeapstone, MarysPrices::honorLeapstone);
+	else
+		return MarketPrices::honorLeapstone;
+}
+
+inline float getGreaterHonorLeapstoneCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::greaterHonorLeapstone, MarysPrices::greaterHonorLeapstone);
+	else
+		return MarketPrices::greaterHonorLeapstone;
+}
+
+inline float getSimpleFusionCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::simpleFusion, MarysPrices::simpleFusion);
+	else
+		return MarketPrices::simpleFusion;
+}
+
+inline float getBasicFusionCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::basicFusion, MarysPrices::basicFusion);
+	else
+		return MarketPrices::basicFusion;
+}
+
+inline float getDestructionStoneCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::destructionStone, MarysPrices::destructionStone);
+	else
+		return MarketPrices::destructionStone;
+}
+
+inline float getGuardianStoneCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::guardianStone, MarysPrices::guardianStone);
+	else
+		return MarketPrices::guardianStone;
+}
+
+inline float getSolarGraceCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::solarGrace, MarysPrices::solarGrace);
+	else
+		return MarketPrices::solarGrace;
+}
+
+inline float getSolarBlessingCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::solarBlessing, MarysPrices::solarBlessing);
+	else
+		return MarketPrices::solarBlessing;
+}
+
+inline float getSolarProtectionCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::solarProtection, MarysPrices::solarProtection);
+	else
+		return MarketPrices::solarProtection;
 }
