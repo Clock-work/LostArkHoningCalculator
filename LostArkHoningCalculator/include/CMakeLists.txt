@@ -8,6 +8,9 @@ set (HeaderFiles ${HeaderFiles}
 	${CMAKE_CURRENT_SOURCE_DIR}/LostArkHoningCalculator/HoningParameter.h
 	${CMAKE_CURRENT_SOURCE_DIR}/LostArkHoningCalculator/HoningResult.h
 	${CMAKE_CURRENT_SOURCE_DIR}/LostArkHoningCalculator/LostArkHoning.h
+	${CMAKE_CURRENT_SOURCE_DIR}/LostArkHoningCalculator/utils/Functions.h
+	${CMAKE_CURRENT_SOURCE_DIR}/LostArkHoningCalculator/utils/Http.h
+	${CMAKE_CURRENT_SOURCE_DIR}/LostArkHoningCalculator/utils/StringManipulation.h
 	${CMAKE_CURRENT_SOURCE_DIR}/LostArkHoningCalculator/Utils.h
 	PARENT_SCOPE
 )

@@ -99,6 +99,39 @@ endif()
 
 #libraries:
 
+#start boost
+set(Boost_USE_MULTITHREADED ON)
+if(StaticLinking)
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_RUNTIME ON)
+else()
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_STATIC_RUNTIME OFF)
+endif()
+set(Boost_NO_BOOST_CMAKE TRUE)#boost not build with cmake
+find_package(Boost 1.74.0 COMPONENTS system chrono thread filesystem serialization regex random date_time atomic)#use your specific boost version
+if(Boost_FOUND)
+  target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIRS})
+  target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${Boost_LIBRARIES})
+  else()#you can also delete this part if you are sure that everything is working in your enviroment
+  set(BOOST_ROOT "${CMAKE_INSTALL_PREFIX}/boost")
+  set(BOOSTROOT "${CMAKE_INSTALL_PREFIX}/boost")
+  set(Boost_LIBRARY_DIR  ${BOOST_ROOT}/lib)
+  set(Boost_INCLUDE_DIR "${BOOST_ROOT}/include")
+  message("${PROJECT_NAME}: Boost not automatically found: manually set directories: BOOST_LIBRARY_DIR:"${Boost_LIBRARY_DIR}"    and BOOST_INCLUDE_DIR:"${Boost_INCLUDE_DIR})
+  find_package(Boost REQUIRED COMPONENTS system chrono thread filesystem serialization regex random date_time atomic)#you can also define a version in the () afterwards
+  target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIRS})
+  target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${Boost_LIBRARIES})
+endif()
+if(UNIX)
+else()
+  if(StaticLinking)
+  else()
+    add_definitions(-DBOOST_ALL_DYN_LINK)
+  endif()
+endif()
+#end boost
+
 #start zlib 
 set(ZLIB_ROOT "${CMAKE_INSTALL_PREFIX}/zlib")
 target_include_directories(${PROJECT_NAME} PUBLIC ${ZLIB_ROOT}/include)
@@ -126,3 +159,8 @@ find_package(CURL REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CURL_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
 #End curl
+
+#Start openssl
+find_package(OpenSSL REQUIRED)
+target_link_libraries(${PROJECT_NAME} PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+#End openssl
