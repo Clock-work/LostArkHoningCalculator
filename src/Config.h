@@ -22,7 +22,9 @@ namespace HoningConfig {
 	static const float MAX_ADDITIONAL_SOLAR_CHANCE = 34.01f;
 
 	//the multiplier to the base chance that gets added as artisans energy on a failed honing attempt
-	static const float ARTISANS_ENERGY_MULTIPLIER = 0.465;
+	static const float ARTISANS_ENERGY_MULTIPLIER = 0.465168;
+
+	static const float ARTISANS_ENERGY_ADDED_FLAT = -0.0000772596;
 
 	//how much silver 1 gold would be worth
 	static int silverAmountPerGold;

@@ -79,7 +79,7 @@ struct HoningInput
 	//returns the artisans energy for the next try after this one failed
 	float getNextArtisansEnergy(const HoningParameter& baseHoningRates) const
 	{
-		return artisansEnergy + HoningConfig::ARTISANS_ENERGY_MULTIPLIER * getTotalHoningSuccessRate(baseHoningRates);
+		return artisansEnergy + HoningConfig::ARTISANS_ENERGY_MULTIPLIER * getTotalHoningSuccessRate(baseHoningRates) + HoningConfig::ARTISANS_ENERGY_ADDED_FLAT;
 	}
 
 };
