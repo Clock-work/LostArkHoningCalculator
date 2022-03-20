@@ -14,7 +14,7 @@ public:
 	{
 		if ( line.find(delimiter) != std::string::npos )
 		{
-			name = line.substr(0, line.find(delimiter));
+			name = line.substr(0, line.find_last_of(delimiter));
 		}
 		else
 		{
@@ -49,7 +49,7 @@ protected:
 		std::string value = "";
 		if ( line.find(delimiter) != std::string::npos )
 		{
-			value = line.substr(line.find(delimiter) + 1);
+			value = line.substr(line.find_last_of(delimiter) + 1);
 		}
 		return value;
 	}

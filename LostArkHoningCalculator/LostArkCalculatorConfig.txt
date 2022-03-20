@@ -1,10 +1,10 @@
-Config Version(Don't change!):2
+Config Version(Don't change!):3
 Edit all config values here according to your market prices and your Gear Honing Level 
 
 
 
 Currency Exchange Buy Crystals
-Gold Cost:805,810,765
+Gold Cost:805,810,765,650
 Crystals gained:95
 
 How much Silver would 1 Gold be worth for you?(the gold exchange vendor would give 100 Silver for 1 Gold):500
@@ -12,23 +12,25 @@ How much Silver would 1 Gold be worth for you?(the gold exchange vendor would gi
 
 
 Auction House Market Prices
-Honor Leapstone:100,120,110,93
-Great Honor Leapstone:332,420,389,400
-Simple Oreha Fusion Material:11,14,11,11
-Basic Oreha Fusion Material:14,20,13,12
-Destruction Stone Crystal(for 10):80,72,46,41,37
-Guardian Stone Crystal(for 10):52,49,33,31,24
-Solar Grace:45,70,45,51
-Solar Blessing:186,220,158,171
-Solar Protection:405,499,396,385
-Small Honor Shard Pouch:42
+Honor Leapstone:100,120,110,93,97
+Great Honor Leapstone:332,420,389,400,410
+Simple Oreha Fusion Material:11,14,11,11,9
+Basic Oreha Fusion Material:14,20,13,12,9
+Destruction Stone Crystal(for 10):80,72,46,41,37,21
+Guardian Stone Crystal(for 10):52,49,33,31,24,39
+Solar Grace:45,70,45,51,49
+Solar Blessing:186,220,158,171,189
+Solar Protection:405,499,396,385,395
+Metallurgy: Basic Welding:16800
+Tailoring: Basic Mending:7350
+Small Honor Shard Pouch:42,39
 
 
 Honing Config
 Are you using the Item Level 1340 Set with Great Honor Leapstones?(true/false):false
 Your current Base Honing Success Rate without Solar stuff after failing an upgrade (otherwise leave at 0):0
 Also include Marys Shop prices for honing materials and use the cheapest for calculation:true
-The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):9
+The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):10
 
 
 Marys Shop

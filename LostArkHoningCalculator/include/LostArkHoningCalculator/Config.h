@@ -4,7 +4,7 @@
 
 static const std::string configPath = "LostArkCalculatorConfig.txt";
 
-static float configVersion = 2.0f;
+static float configVersion = 3.0f;
 
 namespace HoningConfig {
 	//default maximum amount that can be used per upgrade
@@ -13,6 +13,10 @@ namespace HoningConfig {
 	static const int DEFAULT_MAX_SOLAR_BLESSING_AMOUNT = 6;
 	//default maximum amount that can be used per upgrade
 	static const int DEFAULT_MAX_SOLAR_PROTECTION_AMOUNT = 2;
+	//always only 1 can be used for honing 
+	static const int MAX_HONING_BOOK_AMOUNT = 1;
+	//the books always give +10% chance
+	static const float HONING_BOOK_CHANCE = 10.0f;
 
 	//effectiveness multiplier for the chance
 	static const float GRACE_TO_BLESSING_MULTIPLIER = 2.0;
@@ -46,6 +50,10 @@ namespace MarketPrices {
 	static float solarGrace;
 	static float solarBlessing;
 	static float solarProtection;
+	//used for armour honing +10%
+	static float tailoringMendingBook;
+	//used for weapon honing +10% chance
+	static float metallurgyWeldingBook;
 	static float smallHonorShardPouch;
 }
 
@@ -99,6 +107,8 @@ inline bool loadConfig()
 		MarketPrices::solarGrace = configFile.getNextValueFloat(0.1f, 51.0f, "Solar Grace");
 		MarketPrices::solarBlessing = configFile.getNextValueFloat(0.1f, 171.0f, "Solar Blessing");
 		MarketPrices::solarProtection = configFile.getNextValueFloat(0.1f, 385.0f, "Solar Protection");
+		MarketPrices::metallurgyWeldingBook = configFile.getNextValueFloat(3.0f, 16800.0f, "Metallurgy: Basic Welding");
+		MarketPrices::tailoringMendingBook = configFile.getNextValueFloat(3.0f, 7350.0f, "Tailoring: Basic Mending");
 
 		MarketPrices::smallHonorShardPouch = configFile.getNextValueFloat(2.0f, 42.0f, "Small Honor Shard Pouch");
 
@@ -160,22 +170,6 @@ inline float getBasicFusionCost()
 		return MarketPrices::basicFusion;
 }
 
-inline float getDestructionStoneCost()
-{
-	if ( HoningConfig::useMarysShopPrices )
-		return std::min(MarketPrices::destructionStone, MarysPrices::destructionStone);
-	else
-		return MarketPrices::destructionStone;
-}
-
-inline float getGuardianStoneCost()
-{
-	if ( HoningConfig::useMarysShopPrices )
-		return std::min(MarketPrices::guardianStone, MarysPrices::guardianStone);
-	else
-		return MarketPrices::guardianStone;
-}
-
 inline float getSolarGraceCost()
 {
 	if ( HoningConfig::useMarysShopPrices )
@@ -198,4 +192,28 @@ inline float getSolarProtectionCost()
 		return std::min(MarketPrices::solarProtection, MarysPrices::solarProtection);
 	else
 		return MarketPrices::solarProtection;
+}
+
+inline float getHoningBookCost(bool isWeapon)
+{
+	if ( isWeapon )
+		return MarketPrices::metallurgyWeldingBook;
+	else
+		return MarketPrices::tailoringMendingBook;
+}
+
+inline float getDestructionStoneCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::destructionStone, MarysPrices::destructionStone);
+	else
+		return MarketPrices::destructionStone;
+}
+
+inline float getGuardianStoneCost()
+{
+	if ( HoningConfig::useMarysShopPrices )
+		return std::min(MarketPrices::guardianStone, MarysPrices::guardianStone);
+	else
+		return MarketPrices::guardianStone;
 }
