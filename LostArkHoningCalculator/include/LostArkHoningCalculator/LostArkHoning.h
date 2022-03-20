@@ -5,168 +5,99 @@
 #include "HoningChain.h"
 #include <functional>
 
-enum SolarToUse : char
+//the amount of combinations that will be used
+short getMaxAmountOfBranches(const HoningInput& honingInput, char* addToCounterTable)
 {
-	GRACE, BLESSING, PROTECTION
-};
-
-//signals that this parameter should iterate through the function with a for loop
-const static char ITERATE_COUNTER = -1;
-
-//startvalue, maxcount and addtocounter are for the steps of the for loop that calls the function 
-//the inputs will be passed to the function as parameter, but the one with the value of ITERATE_COUNTER will be iterated through in the for loop
-//the iterating will operate with "counter<=maxCount" if addToCounter is positive and otherwise with "counter>=maxCount"
-inline void iterateFunction(char startValue, char maxCount, char addToCounter, const std::function<void(char, char, char)>& function, char graceInput, char blessingInput, char protectionInput)
-{
-	if ( addToCounter > 0 )
+	short amountOfBranches = 1;
+	if ( honingInput.solarGraceToUse > 1 )
 	{
-		for ( char counter = startValue; counter <= maxCount; )
-		{
-			if ( graceInput == ITERATE_COUNTER )
-				function(counter, blessingInput, protectionInput);
-			else if ( blessingInput == ITERATE_COUNTER )
-				function(graceInput, counter, protectionInput);
-			else if ( protectionInput == ITERATE_COUNTER )
-				function(graceInput, blessingInput, counter);
-			counter += addToCounter;
-			if ( counter > maxCount && counter < maxCount + addToCounter )
-			{
-				counter = maxCount;//dont skip last step
-			}
-		}
+		amountOfBranches += honingInput.solarGraceToUse / static_cast<float>( addToCounterTable[MaterialToUse::GRACE] + 1 );
 	}
 	else
 	{
-		for ( char counter = startValue; counter >= maxCount; )
-		{
-			if ( graceInput == ITERATE_COUNTER )
-				function(counter, blessingInput, protectionInput);
-			else if ( blessingInput == ITERATE_COUNTER )
-				function(graceInput, counter, protectionInput);
-			else if ( protectionInput == ITERATE_COUNTER )
-				function(graceInput, blessingInput, counter);
-			counter += addToCounter;
-			if ( counter < maxCount && counter > maxCount + addToCounter )
-			{
-				counter = maxCount;//dont skip last step
-			}
-		}
+		amountOfBranches += honingInput.solarGraceToUse;
 	}
-}
-
-//which solar material should be iterated through first 
-inline void getCheapestOrder(SolarToUse& firstVarUsed, SolarToUse& secondVarUsed, SolarToUse& thirdVarUsed)
-{
-	bool isGraceCheaperThanBlessing = getSolarGraceCost() * HoningConfig::GRACE_TO_BLESSING_MULTIPLIER < getSolarBlessingCost();
-	bool isGraceCheaperThanProtection = getSolarGraceCost() * HoningConfig::GRACE_TO_BLESSING_MULTIPLIER * HoningConfig::BLESSING_TO_PROTECTION_MULTIPLIER < getSolarProtectionCost();
-	bool isBlessingCheaperThanProtection = getSolarBlessingCost() * HoningConfig::BLESSING_TO_PROTECTION_MULTIPLIER < getSolarProtectionCost();
-	if ( isGraceCheaperThanBlessing )
+	if ( honingInput.solarBlessingToUse > 1 )
 	{
-		if ( isGraceCheaperThanProtection )
-		{
-			firstVarUsed = SolarToUse::GRACE;
-			if ( isBlessingCheaperThanProtection )
-			{
-				secondVarUsed = SolarToUse::BLESSING;
-				thirdVarUsed = SolarToUse::PROTECTION;
-			}
-			else
-			{
-				secondVarUsed = SolarToUse::PROTECTION;
-				thirdVarUsed = SolarToUse::BLESSING;
-			}
-		}
-		else
-		{
-			firstVarUsed = SolarToUse::PROTECTION;
-			if ( isGraceCheaperThanBlessing )
-			{
-				secondVarUsed = SolarToUse::GRACE;
-				thirdVarUsed = SolarToUse::BLESSING;
-			}
-			else
-			{
-				secondVarUsed = SolarToUse::BLESSING;
-				thirdVarUsed = SolarToUse::GRACE;
-			}
-		}
+		amountOfBranches += honingInput.solarBlessingToUse / static_cast<float>( addToCounterTable[MaterialToUse::BLESSING] + 1 );
 	}
 	else
 	{
-		if ( isBlessingCheaperThanProtection )
-		{
-			firstVarUsed = SolarToUse::BLESSING;
-			if ( isGraceCheaperThanProtection )
-			{
-				secondVarUsed = SolarToUse::GRACE;
-				thirdVarUsed = SolarToUse::PROTECTION;
-			}
-			else
-			{
-				secondVarUsed = SolarToUse::PROTECTION;
-				thirdVarUsed = SolarToUse::GRACE;
-			}
-		}
-		else
-		{
-			firstVarUsed = SolarToUse::PROTECTION;
-			thirdVarUsed = SolarToUse::BLESSING;
-			secondVarUsed = SolarToUse::GRACE;
-		}
+		amountOfBranches += honingInput.solarBlessingToUse;
 	}
+	if ( honingInput.solarProtectionToUse > 1 )
+	{
+		amountOfBranches += honingInput.solarProtectionToUse / static_cast<float>( addToCounterTable[MaterialToUse::PROTECTION] + 1 );
+	}
+	else
+	{
+		amountOfBranches += honingInput.solarProtectionToUse;
+	}
+	if ( honingInput.honingBookToUse > 1 )
+	{
+		amountOfBranches += honingInput.honingBookToUse / static_cast<float>( addToCounterTable[MaterialToUse::BOOK] + 1 );
+	}
+	else
+	{
+		amountOfBranches += honingInput.honingBookToUse;
+	}
+	return amountOfBranches;
 }
 
 //calls the createfunction with the parameter configuration. below is an example for the parameter to control the iterating
 /*
-	//the start amount of each solar material to use IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char startSolarAmountTable[] = { 0, 0, 0 };
-	//the maximum amount of each solar material to use (always the end of the for loop) IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char maxSolarAmountTable[] = { honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(), honingParameter.getMaxSolarProtectionAmount() };
-	//the steps the counter moves for each solar thing IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char addToCounterTable[] = { 1 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier };
+	the counters will be incremented from the amount to use in the honingInput until they reach zero 
+
+	//the steps the counter moves for each solar thing IN ORDER OF THE SOLAR TYPES grace, blessing, protection, honing book
+	char addToCounterTable[] = { 1 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier, 1 };
+
+
+	for the first step all solar amount used should be set to the maximum and then the current amount used should be used
+
 */
-inline void startNextChains(const std::function<void(int, int, int)>& createFunction, const HoningParameter& honingParameter, char* startSolarAmountTable, char* maxSolarAmountTable, char* addToCounterTable)
+inline void startNextChains(const std::function<void(char, char, char, char)>& createFunction, const HoningParameter& honingParameter, const HoningInput& honingInput, bool isWeapon, char* addToCounterTable)
 {
-	SolarToUse firstVarUsed;
-	SolarToUse secondVarUsed;
-	SolarToUse thirdVarUsed;
-	getCheapestOrder(firstVarUsed, secondVarUsed, thirdVarUsed);
+	char counters[] = { honingInput.solarGraceToUse, honingInput.solarBlessingToUse, honingInput.solarProtectionToUse, honingInput.honingBookToUse };
 
-	//the input of the solar parameter (and the one which is ITERATE_COUNTER will iterate through the for loop) IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char solarInput[] = { 0, 0, 0 };
-	solarInput[GRACE] = startSolarAmountTable[GRACE];
-	solarInput[BLESSING] = startSolarAmountTable[BLESSING];
-	solarInput[PROTECTION] = startSolarAmountTable[PROTECTION];
+	const std::vector<MaterialOrderElement>& materialUseOrder = honingParameter.getMaterialUseOrder(isWeapon);
 
-	bool startAtZero = addToCounterTable[0] > 0;
-	char addToStartValue = 0;
-	if ( startAtZero )
-		addToStartValue++;
-	else
-		addToStartValue--;
+	char materialUseCounter = 0;
 
-	solarInput[firstVarUsed] = ITERATE_COUNTER;
-	//iterate from 0 0 0 to n 0 0
-	iterateFunction(startSolarAmountTable[(char) firstVarUsed], maxSolarAmountTable[(char)firstVarUsed], addToCounterTable[firstVarUsed], createFunction, solarInput[GRACE], solarInput[BLESSING], solarInput[PROTECTION]);
-	solarInput[firstVarUsed] = maxSolarAmountTable[(char) firstVarUsed];
-	solarInput[secondVarUsed] = ITERATE_COUNTER;
-	//iterate from max 1 0 to max n 0
-	iterateFunction(startSolarAmountTable[(char) secondVarUsed] + addToStartValue, maxSolarAmountTable[(char) secondVarUsed], addToCounterTable[secondVarUsed], createFunction, solarInput[GRACE], solarInput[BLESSING], solarInput[PROTECTION]);
-	solarInput[secondVarUsed] = maxSolarAmountTable[(char) secondVarUsed];
-	solarInput[thirdVarUsed] = ITERATE_COUNTER;
-	//iterate from max max 1 to max max n
-	iterateFunction(startSolarAmountTable[(char) thirdVarUsed] + addToStartValue, maxSolarAmountTable[(char) thirdVarUsed], addToCounterTable[thirdVarUsed], createFunction, solarInput[GRACE], solarInput[BLESSING], solarInput[PROTECTION]);
+	createFunction(counters[MaterialToUse::GRACE], counters[MaterialToUse::BLESSING], counters[MaterialToUse::PROTECTION],
+				   counters[MaterialToUse::BOOK]);//on first try use the material count from the last chain(or start)
+
+	while ( true )
+	{
+		counters[materialUseOrder.at(materialUseCounter).material] -= addToCounterTable[materialUseOrder.at(materialUseCounter).material];
+		if ( counters[materialUseOrder.at(materialUseCounter).material] < 0 && counters[materialUseOrder.at(materialUseCounter).material] > -addToCounterTable[materialUseOrder.at(materialUseCounter).material] )
+		{
+			counters[materialUseOrder.at(materialUseCounter).material] = 0;//if the counter skips the 0, then that try will be repeated
+		}
+
+		if ( counters[materialUseOrder.at(materialUseCounter).material] < 0 )
+		{
+			counters[materialUseOrder.at(materialUseCounter).material] = 0;
+			do
+			{
+				materialUseCounter++;
+				if ( materialUseCounter == materialUseOrder.size() )//no more counters to modify, so all should be zero for the last try above
+					return;
+			}
+			while ( counters[materialUseOrder.at(materialUseCounter).material] == 0 );
+		}
+		else
+		{
+			createFunction(counters[MaterialToUse::GRACE], counters[MaterialToUse::BLESSING], counters[MaterialToUse::PROTECTION],
+						   counters[MaterialToUse::BOOK]);//on first try use the material count from the last chain(or start)
+		}
+
+	}
 }
 
 //starts at 1 for the first try and not at zero
 inline HoningChainElement honingChainStep(const HoningParameter& honingParameter, bool isWeapon, const HoningInput& honingInput)
 {
 	HoningResult result { honingInput };
-
-	if ( isMore(honingInput.getAdditionalSolarSuccessRate(honingParameter), HoningConfig::MAX_ADDITIONAL_SOLAR_CHANCE) )
-	{//upper limit for solar honing materials used to increase the chance of honing 
-		return HoningChainElement(result);
-	}
 
 	if ( isMore(honingInput.getTotalHoningSuccessRate(honingParameter), 99.9f) )
 	{//last honing in the chain, because it's guaranteed
@@ -175,64 +106,35 @@ inline HoningChainElement honingChainStep(const HoningParameter& honingParameter
 
 	if ( isMore(honingInput.getNextArtisansEnergy(honingParameter), 99.9f) )
 	{
-		return HoningChainElement(result, honingChainStep(honingParameter, isWeapon, honingInput.getHoningInputForNextTry(honingParameter, 0, 0, 0)));
+		return HoningChainElement(result, honingChainStep(honingParameter, isWeapon, honingInput.getHoningInputForNextTry(honingParameter, 0, 0, 0, 0)));
 	}
 
-
-	//the start amount of each solar material to use IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char startSolarAmountTable[] = { honingInput.solarGraceToUse, honingInput.solarBlessingToUse, honingInput.solarProtectionToUse };
-	//the maximum amount of each solar material to use (always the end of the for loop) IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char maxSolarAmountTable[] = { 0, 0, 0 };
-	//the steps the counter moves for each solar thing IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char addToCounterTableVariant1[] = { -1 , -1, -1 };
-	char addToCounterTableVariant2[] = { -6 * honingParameter.maxSolarAmountMultiplier, -3 * honingParameter.maxSolarAmountMultiplier, -1 * honingParameter.maxSolarAmountMultiplier };
+	//the steps the counter moves for each solar thing IN ORDER OF THE SOLAR TYPES grace, blessing, protection, book
+	char addToCounterTableVariant1[] = { 1 , 1, 1, 1 };
+	char addToCounterTableVariant2[] = { 6 * honingParameter.maxSolarAmountMultiplier, 3 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier, 1 };
 	char* addToCounterTable = addToCounterTableVariant1;
-	// after 50% artisans energy use smaller increments for the counter which takes more time
-	if ( honingInput.getNextArtisansEnergy(honingParameter) < 50.0f )
+	// after 75% artisans energy use smaller increments for the counter which takes more time
+	if ( honingInput.getNextArtisansEnergy(honingParameter) < 75.0f )
 	{
 		addToCounterTable = addToCounterTableVariant2;
 	}
 
+	HoningChainElement combinedHoningChain { result, getMaxAmountOfBranches(honingInput, addToCounterTable) };
 
-	//the amount of combinations that will be used
-	short amountOfBranches = 1;
-
-	if ( std::abs(startSolarAmountTable[GRACE]) > 1 )
+	auto createFunction = [&] (char graceCounter, char blessingCounter, char protectionCounter, char honingBookCounter)
 	{
-		amountOfBranches += startSolarAmountTable[GRACE] / std::abs((float) addToCounterTable[GRACE]) + 1;
-	}
-	else
-	{
-		amountOfBranches += startSolarAmountTable[GRACE];
-	}
-	if ( std::abs(startSolarAmountTable[BLESSING]) > 1 )
-	{
-		amountOfBranches += startSolarAmountTable[BLESSING] / std::abs((float) addToCounterTable[BLESSING]) + 1;
-	}
-	else
-	{
-		amountOfBranches += startSolarAmountTable[BLESSING];
-	}
-	if ( std::abs(startSolarAmountTable[PROTECTION]) > 1 )
-	{
-		amountOfBranches += startSolarAmountTable[PROTECTION] / std::abs((float) addToCounterTable[PROTECTION]) + 1;
-	}
-	else
-	{
-		amountOfBranches += startSolarAmountTable[PROTECTION];
-	}
-
-	HoningChainElement combinedHoningChain { result, amountOfBranches };
-
-	auto createFunction = [&] (char graceCounter, char blessingCounter, char protectionCounter)
-	{
-		combinedHoningChain.elements.push_back(honingChainStep(honingParameter, isWeapon, honingInput.getHoningInputForNextTry(honingParameter, graceCounter, blessingCounter, protectionCounter)));
+		combinedHoningChain.elements.push_back(
+			honingChainStep(honingParameter,
+							isWeapon,
+							honingInput.getHoningInputForNextTry(honingParameter,
+																 graceCounter,
+																 blessingCounter,
+																 protectionCounter,
+																 honingBookCounter)));
 	};
 
-
-	startNextChains(createFunction, honingParameter, startSolarAmountTable, maxSolarAmountTable, addToCounterTable);
+	startNextChains(createFunction, honingParameter, honingInput, isWeapon, addToCounterTable);
 	return combinedHoningChain;
-
 }
 
 //starts at 1 for the first try and not at zero
@@ -241,39 +143,54 @@ inline std::vector<HoningResult> startHoningChain(const HoningParameter& honingP
 	std::vector<HoningResult> bestHoningChain;
 	float bestHoningCost = -1.0f;
 
-	//the start amount of each solar material to use IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char startSolarAmountTable[] = { 0, 0, 0 };
-	//the maximum amount of each solar material to use (always the end of the for loop) IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char maxSolarAmountTable[] = { honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(), honingParameter.getMaxSolarProtectionAmount() };
-	//the steps the counter moves for each solar thing IN ORDER OF THE SOLAR TYPES grace, blessing, protection
-	char addToCounterTable[] = { 6 * honingParameter.maxSolarAmountMultiplier, 3 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier };
+	//the steps the counter moves for each solar thing IN ORDER OF THE SOLAR TYPES grace, blessing, protection, book
+	char addToCounterTable[] = { 6 * honingParameter.maxSolarAmountMultiplier, 3 * honingParameter.maxSolarAmountMultiplier, 1 * honingParameter.maxSolarAmountMultiplier, 1 };
 
-	auto createFunction = [&] (char graceCounter, char blessingCounter, char protectionCounter)
+	auto createFunction = [&] (char graceCounter, char blessingCounter, char protectionCounter, char honingBookCounter)
 	{
-		HoningChainElement chainElement = honingChainStep(honingParameter, isWeapon, HoningInput(1, 0.0f, graceCounter, blessingCounter, protectionCounter));
+		HoningChainElement chainElement = honingChainStep(honingParameter, isWeapon, HoningInput(1, 0.0f, graceCounter, blessingCounter, protectionCounter, honingBookCounter));
 		std::vector<HoningResult> bestChainAsVector = chainElement.getBestChain(honingParameter, isWeapon);
 		float honingCost = getAverageCostOfHoningChain(bestChainAsVector, honingParameter, isWeapon);
-		if ( isless(bestHoningCost,-0.99f) || isLess(honingCost, bestHoningCost) )
+		if ( isless(bestHoningCost, -0.99f) || isLess(honingCost, bestHoningCost) )
 		{
 			bestHoningCost = honingCost;
 			bestHoningChain = std::move(bestChainAsVector);
 		}
 	};
 
-	startNextChains(createFunction, honingParameter, startSolarAmountTable, maxSolarAmountTable, addToCounterTable);
+	startNextChains(createFunction, honingParameter, HoningInput::getMaxInput(honingParameter), isWeapon, addToCounterTable);
 	return bestHoningChain;
+}
+
+inline HoningChainElement getFullChain(const HoningParameter& honingParameter, bool isWeapon, const HoningInput& honingInput)
+{
+	HoningResult result { honingInput };
+
+	if ( isMore(honingInput.getTotalHoningSuccessRate(honingParameter), 99.9f) )
+	{//last honing in the chain, because it's guaranteed
+		return HoningChainElement(result);
+	}
+
+	if ( isMore(honingInput.getNextArtisansEnergy(honingParameter), 99.9f) )
+	{
+		return HoningChainElement(result, getFullChain(honingParameter, isWeapon, honingInput.getHoningInputForNextTry(honingParameter, 0, 0, 0, 0)));
+	}
+
+	return HoningChainElement(result, 
+							  getFullChain(honingParameter, isWeapon, 
+														   honingInput.getHoningInputForNextTry(honingParameter)));
 }
 
 inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set)
 {
-	HoningParameter honingParameter { currentItemHoningLevel + 1, isIlvl1340Set};
+	HoningParameter honingParameter { currentItemHoningLevel + 1, isIlvl1340Set };
 
 	std::cout << "Calculating Weapon Honing cost..." << std::endl;
 	auto honingChainWeapon = startHoningChain(honingParameter, true);
 	float avgGoldCostWeapon = getAverageCostOfHoningChain(honingChainWeapon, honingParameter, true);
 
 	std::cout << "Calculating Armour Honing cost..." << std::endl;
-	auto honingChainArmour= startHoningChain(honingParameter, false);
+	auto honingChainArmour = startHoningChain(honingParameter, false);
 	float avgGoldCostArmour = getAverageCostOfHoningChain(honingChainArmour, honingParameter, false);
 
 
@@ -291,19 +208,44 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 	{
 		element.output(honingParameter, true);
 	}
-	
 
-	std::cout << std::endl << "Your Armour has an average cost of " << avgGoldCostArmour << " gold and needs on average " << getAverageTriesOfHoningChain(honingChainArmour, honingParameter) <<" tries." << std::endl << std::endl;
+	auto fullChainWeapon = getFullChain(honingParameter, true, HoningInput(1, 0.0f, honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(),
+																		   honingParameter.getMaxSolarProtectionAmount(), 0)).getBestChain(honingParameter, true);
+	auto emptyChainWeapon = getFullChain(honingParameter, true, HoningInput(1, 0.0f, 0, 0, 0, 0)).getBestChain(honingParameter, true);
+
+	std::cout << std::endl << "Weapon full solar material use would cost " << getAverageCostOfHoningChain(fullChainWeapon, honingParameter, true) 
+		<< " gold and needs on average " << getAverageTriesOfHoningChain(fullChainWeapon, honingParameter) << " tries with a maximum of " << fullChainWeapon.size() << " tries." << std::endl;
+	fullChainWeapon.at(0).output(honingParameter, true);
+
+	std::cout << std::endl << "Weapon no solar material use would cost " << getAverageCostOfHoningChain(emptyChainWeapon, honingParameter, true) 
+		<< " gold and needs on average " << getAverageTriesOfHoningChain(emptyChainWeapon, honingParameter) << " tries with a maximum of " << emptyChainWeapon.size() << " tries." << std::endl;
+	emptyChainWeapon.at(0).output(honingParameter, true);
+
+	std::cout << std::endl;
+
+	std::cout << std::endl << "Your Armour has an average cost of " << avgGoldCostArmour << " gold and needs on average " << getAverageTriesOfHoningChain(honingChainArmour, honingParameter) << " tries." << std::endl << std::endl;
 
 	for ( auto& element : honingChainArmour )
 	{
 		element.output(honingParameter, false);
 	}
+	
+	auto fullChainArmour = getFullChain(honingParameter, false, HoningInput(1, 0.0f, honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(),
+																			honingParameter.getMaxSolarProtectionAmount(), 0)).getBestChain(honingParameter, false);
+	auto emptyChainArmour = getFullChain(honingParameter, false, HoningInput(1, 0.0f, 0, 0, 0, 0)).getBestChain(honingParameter, false);
+
+	std::cout << std::endl << "Armour full solar material use would cost " << getAverageCostOfHoningChain(fullChainArmour, honingParameter, false)
+		<< " gold and needs on average " << getAverageTriesOfHoningChain(fullChainArmour, honingParameter) << " tries with a maximum of " << fullChainArmour.size() << " tries." << std::endl;
+	fullChainArmour.at(0).output(honingParameter, false);
+
+	std::cout << std::endl << "Armour no solar material use would cost " << getAverageCostOfHoningChain(emptyChainArmour, honingParameter, false)
+		<< " gold and needs on average " << getAverageTriesOfHoningChain(emptyChainArmour, honingParameter) << " tries with a maximum of " << emptyChainArmour.size() << " tries." << std::endl;
+	emptyChainArmour.at(0).output(honingParameter, false);
+
+	std::cout << std::endl << std::endl;
 
 	//double finalGoldCost = ( 1 / ( totalSuccessRate / 100 ) ) * tempGoldCost;
 }
-
-
 
 static void printHoningCalculation()
 {

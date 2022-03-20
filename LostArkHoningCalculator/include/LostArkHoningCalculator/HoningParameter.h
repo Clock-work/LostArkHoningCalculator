@@ -1,10 +1,35 @@
 #pragma once 
 #include "Config.h"
+#include <vector>
+
+//the additional crafting materials numerated from GRACE=0, blessing ,protection, book. 
+//MATERIAL_AMOUNT must always be last inside of the enum
+enum MaterialToUse : char
+{
+	GRACE, BLESSING, PROTECTION, BOOK, MATERIAL_AMOUNT
+};
+
+struct MaterialOrderElement
+{
+	MaterialToUse material;
+	float price;
+	MaterialOrderElement(MaterialToUse material, float price)
+		: material(material), price(price)
+	{}
+};
 
 //all success chances are in decimal point percent chance
 //the rates are from https://lost-ark.maxroll.gg/resources/gear-honing-system and might change in the future 
 struct HoningParameter
 {
+private:
+	//from most expensive to least expensive material to use
+	std::vector<MaterialOrderElement> materialUseOrderWeapon;
+	//from most expensive to least expensive material to use
+	std::vector<MaterialOrderElement> materialUseOrderArmour;
+
+public:
+
 	//is the percent chance for success
 	float successRateAsDecimal;
 	float solarGraceChance;
@@ -67,6 +92,8 @@ struct HoningParameter
 
 		baseHoningCostWeapon = getBaseHoningCostWeapon(targetItemHoningLevel, isIlvl1340Set);
 		baseHoningCosArmour = getBaseHoningCostArmour(targetItemHoningLevel, isIlvl1340Set);
+		calculateMaterialOrder(true);
+		calculateMaterialOrder(false);
 	}
 
 	//default max solar amount multiplied with the multiplier 
@@ -90,6 +117,27 @@ struct HoningParameter
 	inline float getBaseHoningCost(bool isWeapon) const
 	{
 		return isWeapon ? baseHoningCostWeapon : baseHoningCosArmour;
+	}
+
+	//price normalized per percent of all materials
+	inline float getNormalizedMaterialPrice(MaterialToUse material, bool isWeapon) const
+	{
+		if ( material == MaterialToUse::GRACE )
+			return getSolarGraceCost() / solarGraceChance;
+		else if ( material == MaterialToUse::BLESSING )
+			return getSolarBlessingCost() / solarBlessingChance;
+		else if ( material == MaterialToUse::PROTECTION )
+			return getSolarProtectionCost() / solarProtectionChance;
+		else if ( material == MaterialToUse::BOOK )
+			return getHoningBookCost(isWeapon) / HoningConfig::HONING_BOOK_CHANCE;
+	}
+
+	inline const std::vector<MaterialOrderElement>& getMaterialUseOrder(bool isWeapon) const
+	{
+		if ( isWeapon )
+			return materialUseOrderWeapon;
+		else
+			return materialUseOrderArmour;
 	}
 
 private:
@@ -215,6 +263,37 @@ private:
 		goldCost += upgradeStones * getGuardianStoneCost();
 		goldCost += shardCost;
 		return goldCost;
+	}
+
+	inline void calculateMaterialOrder(bool isWeapon)
+	{
+		std::vector<MaterialOrderElement>* materialUseOrder;
+		if ( isWeapon )
+			materialUseOrder = &materialUseOrderWeapon;
+		else
+			materialUseOrder = &materialUseOrderArmour;
+
+		materialUseOrder->reserve(MaterialToUse::MATERIAL_AMOUNT);
+
+		for ( char material = 0; material < MaterialToUse::MATERIAL_AMOUNT; material++ )
+		{
+			float newMaterialPrice = getNormalizedMaterialPrice(static_cast<MaterialToUse>( material ), isWeapon);
+			bool added = false;
+			for ( int i = 0; i < materialUseOrder->size(); ++i )
+			{
+				float orderPrice = materialUseOrder->at(i).price;
+				if ( isMore(newMaterialPrice, orderPrice) )
+				{
+					materialUseOrder->emplace(materialUseOrder->begin() + i, static_cast<MaterialToUse>( material ), newMaterialPrice);
+					added = true;
+					break;
+				}
+			}
+			if ( !added )
+			{
+				materialUseOrder->emplace_back(static_cast<MaterialToUse>( material ), newMaterialPrice);
+			}
+		}
 	}
 
 };

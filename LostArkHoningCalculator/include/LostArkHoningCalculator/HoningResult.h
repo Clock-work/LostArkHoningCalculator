@@ -37,6 +37,16 @@ struct HoningResult
 			std::cout << (int) honingInput.solarProtectionToUse << " Solar Protection";
 			counter++;
 		}
+		if ( honingInput.honingBookToUse > 0 )
+		{
+			std::string bookText = " Metallurgy: Basic Welding";
+			if ( !isWeapon )
+				bookText = " Tailoring: Basic Mending";
+			if ( counter > 0 )
+				std::cout << ", ";
+			std::cout << (int) honingInput.honingBookToUse << bookText;
+			counter++;
+		}
 		if ( counter > 0 )
 		{
 			std::cout << " used and with ";
