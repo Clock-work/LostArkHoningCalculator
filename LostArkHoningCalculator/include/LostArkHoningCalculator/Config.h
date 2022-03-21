@@ -4,7 +4,7 @@
 
 static const std::string configPath = "LostArkCalculatorConfig.txt";
 
-static float configVersion = 3.0f;
+static float configVersion = 4.0f;
 
 namespace HoningConfig {
 	//default maximum amount that can be used per upgrade
@@ -55,6 +55,8 @@ namespace MarketPrices {
 	//used for weapon honing +10% chance
 	static float metallurgyWeldingBook;
 	static float smallHonorShardPouch;
+	static float largeHonorShardPouch;
+	static float powderOfSage;
 }
 
 //the prices are already converted to gold and are not in crystals!
@@ -111,6 +113,8 @@ inline bool loadConfig()
 		MarketPrices::tailoringMendingBook = configFile.getNextValueFloat(3.0f, 7350.0f, "Tailoring: Basic Mending");
 
 		MarketPrices::smallHonorShardPouch = configFile.getNextValueFloat(2.0f, 42.0f, "Small Honor Shard Pouch");
+		MarketPrices::largeHonorShardPouch = configFile.getNextValueFloat(4.0f, 108.0f, "Large Honor Shard Pouch");
+		MarketPrices::powderOfSage = configFile.getNextValueFloat(4.0f, 99.0f, "Powder of Sage");
 
 		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, false, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
 		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar materials after already failing some previous upgrades (otherwise leave at 0)");

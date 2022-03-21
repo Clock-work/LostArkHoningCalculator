@@ -1,4 +1,4 @@
-Config Version(Don't change!):3
+Config Version(Don't change!):4
 Edit all config values here according to your market prices and your Gear Honing Level 
 
 
@@ -24,6 +24,8 @@ Solar Protection:405,499,396,385,395
 Metallurgy: Basic Welding:16800
 Tailoring: Basic Mending:7350
 Small Honor Shard Pouch:42,39
+Large Honor Shard Pouch:108
+Powder of Sage:99
 
 
 Honing Config

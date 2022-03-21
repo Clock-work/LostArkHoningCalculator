@@ -43,6 +43,11 @@ public:
 	//total base gold cost for armour honing 
 	float baseHoningCosArmour;
 
+	int armourLeapstoneCost;
+	int weaponLeapstoneCost;
+	int destructionStoneCost;
+	int guardianStoneCost;
+
 	//successRateAsDecimal is the percent chance for success
 	HoningParameter(int targetItemHoningLevel, bool isIlvl1340Set)
 	{
@@ -143,8 +148,8 @@ public:
 private:
 	inline float getBaseHoningCostWeapon(int targetItemHoningLevel, bool isIlvl1340Set)
 	{
-		int upgradeStones = 138;
-		int leapStones = 4;
+		destructionStoneCost = 138;
+		weaponLeapstoneCost = 4;
 		int fusionMat = 0;
 		int rawGoldCost = 0;
 		int silverCost = 16000;
@@ -152,8 +157,8 @@ private:
 
 		if ( targetItemHoningLevel >= 3 )
 		{
-			upgradeStones += 60;
-			leapStones += 2;
+			destructionStoneCost += 60;
+			weaponLeapstoneCost += 2;
 			silverCost += 500;
 		}
 		if ( targetItemHoningLevel >= 4 )
@@ -163,8 +168,8 @@ private:
 		}
 		if ( targetItemHoningLevel >= 7 )
 		{
-			upgradeStones += 60;
-			leapStones += 2;
+			destructionStoneCost += 60;
+			weaponLeapstoneCost += 2;
 			fusionMat += 2;
 			rawGoldCost += 120;
 			silverCost += 1000;
@@ -172,19 +177,19 @@ private:
 		}
 		if ( targetItemHoningLevel >= 10 )
 		{
-			upgradeStones += 62;
-			leapStones += 2;
+			destructionStoneCost += 62;
+			weaponLeapstoneCost += 2;
 			silverCost += 2000;
 		}
 		if ( targetItemHoningLevel >= 13 )
 		{
-			upgradeStones += 60;
+			destructionStoneCost += 60;
 			fusionMat += 2;
 			silverCost += 1000;
 		}
 		if ( targetItemHoningLevel >= 14 )
 		{
-			leapStones += 2;
+			weaponLeapstoneCost += 2;
 			silverCost += 1000;
 		}
 
@@ -196,18 +201,18 @@ private:
 
 		float goldCost = rawGoldCost + silverCost * ( 1.0f / static_cast<float>( HoningConfig::silverAmountPerGold ) );
 		if ( isIlvl1340Set )
-			goldCost += leapStones * getGreaterHonorLeapstoneCost() + fusionMat * getBasicFusionCost();
+			goldCost += weaponLeapstoneCost * getGreaterHonorLeapstoneCost() + fusionMat * getBasicFusionCost();
 		else
-			goldCost += leapStones * getHonorLeapstoneCost() + fusionMat * getSimpleFusionCost();
-		goldCost += upgradeStones * getDestructionStoneCost();
+			goldCost += weaponLeapstoneCost * getHonorLeapstoneCost() + fusionMat * getSimpleFusionCost();
+		goldCost += destructionStoneCost * getDestructionStoneCost();
 		goldCost += shardCost;
 		return goldCost;
 	}
 
 	inline float getBaseHoningCostArmour(int targetItemHoningLevel, bool isIlvl1340Set)
 	{
-		int upgradeStones = 82;
-		int leapStones = 2;
+		guardianStoneCost = 82;
+		armourLeapstoneCost = 2;
 		int fusionMat = 0;
 		int rawGoldCost = 0;
 		int silverCost = 11000;
@@ -215,37 +220,37 @@ private:
 
 		if ( targetItemHoningLevel >= 3 )
 		{
-			leapStones += 2;
+			armourLeapstoneCost += 2;
 			silverCost += 500;
 		}
 		if ( targetItemHoningLevel >= 4 )
 		{
-			upgradeStones += 38;
+			guardianStoneCost += 38;
 			fusionMat += 2;
 			silverCost += 500;
 		}
 		if ( targetItemHoningLevel >= 7 )
 		{
-			upgradeStones += 36;
+			guardianStoneCost += 36;
 			rawGoldCost += 70;
 			silverCost += 500;
 			shardCost = MarketPrices::smallHonorShardPouch / 6.76f;
 		}
 		if ( targetItemHoningLevel >= 10 )
 		{
-			upgradeStones += 36;
-			leapStones += 2;
+			guardianStoneCost += 36;
+			armourLeapstoneCost += 2;
 			fusionMat += 2;
 			silverCost += 1000;
 		}
 		if ( targetItemHoningLevel >= 13 )
 		{
-			upgradeStones += 36;
+			guardianStoneCost += 36;
 			silverCost += 1000;
 		}
 		if ( targetItemHoningLevel >= 14 )
 		{
-			leapStones += 2;
+			armourLeapstoneCost += 2;
 			silverCost += 1000;
 		}
 
@@ -257,10 +262,10 @@ private:
 
 		float goldCost = rawGoldCost + silverCost * ( 1.0f / static_cast<float>( HoningConfig::silverAmountPerGold ) );
 		if ( isIlvl1340Set )
-			goldCost += leapStones * getGreaterHonorLeapstoneCost() + fusionMat * getBasicFusionCost();
+			goldCost += armourLeapstoneCost * getGreaterHonorLeapstoneCost() + fusionMat * getBasicFusionCost();
 		else
-			goldCost += leapStones * getHonorLeapstoneCost() + fusionMat * getSimpleFusionCost();
-		goldCost += upgradeStones * getGuardianStoneCost();
+			goldCost += armourLeapstoneCost * getHonorLeapstoneCost() + fusionMat * getSimpleFusionCost();
+		goldCost += guardianStoneCost * getGuardianStoneCost();
 		goldCost += shardCost;
 		return goldCost;
 	}

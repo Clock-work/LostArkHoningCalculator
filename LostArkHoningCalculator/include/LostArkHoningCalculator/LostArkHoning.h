@@ -188,10 +188,12 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 	std::cout << "Calculating Weapon Honing cost..." << std::endl;
 	auto honingChainWeapon = startHoningChain(honingParameter, true);
 	float avgGoldCostWeapon = getAverageCostOfHoningChain(honingChainWeapon, honingParameter, true);
+	float avgTriesWeapon = getAverageTriesOfHoningChain(honingChainWeapon, honingParameter);
 
 	std::cout << "Calculating Armour Honing cost..." << std::endl;
 	auto honingChainArmour = startHoningChain(honingParameter, false);
 	float avgGoldCostArmour = getAverageCostOfHoningChain(honingChainArmour, honingParameter, false);
+	float avgTriesArmour = getAverageTriesOfHoningChain(honingChainArmour, honingParameter);
 
 
 	std::cout << std::endl << "Honing Calculation for your Gear from +" << currentItemHoningLevel << " to +" << currentItemHoningLevel + 1 << std::endl << std::endl;
@@ -202,7 +204,9 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 		std::cout << "Marys shop prices will not be used for this calculation (you can change this in the config)" << std::endl << std::endl;
 
 
-	std::cout << std::endl << "Your Weapon has an average cost of " << avgGoldCostWeapon << " gold and needs on average " << getAverageTriesOfHoningChain(honingChainWeapon, honingParameter) << " tries." << std::endl << std::endl;
+	std::cout << std::endl << "Your Weapon has an average cost of " << avgGoldCostWeapon << " gold and needs on average " << avgTriesWeapon << " tries, "
+		<< honingParameter.weaponLeapstoneCost * avgTriesWeapon << " leapstones and "
+		<< honingParameter.destructionStoneCost * avgTriesWeapon << " destruction stones." << std::endl << std::endl;
 
 	for ( auto& element : honingChainWeapon )
 	{
@@ -223,7 +227,9 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 
 	std::cout << std::endl;
 
-	std::cout << std::endl << "Your Armour has an average cost of " << avgGoldCostArmour << " gold and needs on average " << getAverageTriesOfHoningChain(honingChainArmour, honingParameter) << " tries." << std::endl << std::endl;
+	std::cout << std::endl << "Your Armour has an average cost of " << avgGoldCostArmour << " gold and needs on average " << avgTriesArmour << " tries, "
+		<< honingParameter.armourLeapstoneCost * avgTriesArmour << " leapstones and "
+		<< honingParameter.guardianStoneCost * avgTriesArmour << " guardian stones." << std::endl << std::endl;
 
 	for ( auto& element : honingChainArmour )
 	{
