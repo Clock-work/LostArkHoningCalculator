@@ -1,6 +1,7 @@
 #include "LostArkHoningCalculator/LostArkHoning.h"
 #include "LostArkHoningCalculator/Config.h"
 #include "LostArkHoningCalculator/utils/Http.h"
+#include "LostArkHoningCalculator/ChaosExchange.h"
 
 void printMarysShop()
 {
@@ -75,6 +76,8 @@ int main()
 		sleep(1500);
 
 		printMarysShop();
+
+		printChaosExchange();
 
 		sleep(1500);
 

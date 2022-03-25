@@ -185,6 +185,15 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 {
 	HoningParameter honingParameter { currentItemHoningLevel + 1, isIlvl1340Set };
 
+	int honingBookAmount = 1;
+
+	if (isIlvl1340Set)
+	{
+		std::cout << "For the ilvl 1340 set it's best to buy the weapon and 1 armour from abyss dungeon and 2 armour pieces from argos in the first week" << std::endl;
+		std::cout << "Then upgrade the weapon to +11, the 2 armour pieces from abyss dungeon to +8 and the other armour pieces to +17" << std::endl;
+	}
+
+
 	std::cout << "Calculating Weapon Honing cost..." << std::endl;
 	auto honingChainWeapon = startHoningChain(honingParameter, true);
 	float avgGoldCostWeapon = getAverageCostOfHoningChain(honingChainWeapon, honingParameter, true);
@@ -214,14 +223,14 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 	}
 
 	auto fullChainWeapon = getFullChain(honingParameter, true, HoningInput(1, 0.0f, honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(),
-																		   honingParameter.getMaxSolarProtectionAmount(), 0)).getBestChain(honingParameter, true);
+																		   honingParameter.getMaxSolarProtectionAmount(), honingBookAmount)).getBestChain(honingParameter, true);
 	auto emptyChainWeapon = getFullChain(honingParameter, true, HoningInput(1, 0.0f, 0, 0, 0, 0)).getBestChain(honingParameter, true);
 
-	std::cout << std::endl << "Weapon full solar material use would cost " << getAverageCostOfHoningChain(fullChainWeapon, honingParameter, true) 
+	std::cout << std::endl << "Weapon with full material use would cost " << getAverageCostOfHoningChain(fullChainWeapon, honingParameter, true) 
 		<< " gold and needs on average " << getAverageTriesOfHoningChain(fullChainWeapon, honingParameter) << " tries with a maximum of " << fullChainWeapon.size() << " tries." << std::endl;
 	fullChainWeapon.at(0).output(honingParameter, true);
 
-	std::cout << std::endl << "Weapon no solar material use would cost " << getAverageCostOfHoningChain(emptyChainWeapon, honingParameter, true) 
+	std::cout << std::endl << "Weapon with no material use would cost " << getAverageCostOfHoningChain(emptyChainWeapon, honingParameter, true) 
 		<< " gold and needs on average " << getAverageTriesOfHoningChain(emptyChainWeapon, honingParameter) << " tries with a maximum of " << emptyChainWeapon.size() << " tries." << std::endl;
 	emptyChainWeapon.at(0).output(honingParameter, true);
 
@@ -237,14 +246,14 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 	}
 	
 	auto fullChainArmour = getFullChain(honingParameter, false, HoningInput(1, 0.0f, honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(),
-																			honingParameter.getMaxSolarProtectionAmount(), 0)).getBestChain(honingParameter, false);
+																			honingParameter.getMaxSolarProtectionAmount(), honingBookAmount)).getBestChain(honingParameter, false);
 	auto emptyChainArmour = getFullChain(honingParameter, false, HoningInput(1, 0.0f, 0, 0, 0, 0)).getBestChain(honingParameter, false);
 
-	std::cout << std::endl << "Armour full solar material use would cost " << getAverageCostOfHoningChain(fullChainArmour, honingParameter, false)
+	std::cout << std::endl << "Armour with full material use would cost " << getAverageCostOfHoningChain(fullChainArmour, honingParameter, false)
 		<< " gold and needs on average " << getAverageTriesOfHoningChain(fullChainArmour, honingParameter) << " tries with a maximum of " << fullChainArmour.size() << " tries." << std::endl;
 	fullChainArmour.at(0).output(honingParameter, false);
 
-	std::cout << std::endl << "Armour no solar material use would cost " << getAverageCostOfHoningChain(emptyChainArmour, honingParameter, false)
+	std::cout << std::endl << "Armour with no material use would cost " << getAverageCostOfHoningChain(emptyChainArmour, honingParameter, false)
 		<< " gold and needs on average " << getAverageTriesOfHoningChain(emptyChainArmour, honingParameter) << " tries with a maximum of " << emptyChainArmour.size() << " tries." << std::endl;
 	emptyChainArmour.at(0).output(honingParameter, false);
 
