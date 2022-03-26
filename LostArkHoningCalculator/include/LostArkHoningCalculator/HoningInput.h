@@ -21,10 +21,25 @@ struct HoningInput
 
 	}
 
+	//all materials used set to maximum
 	inline static HoningInput getMaxInput(const HoningParameter& honingParameter)
 	{
 		return HoningInput(1, 0.0f, honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(), 
 						   honingParameter.getMaxSolarProtectionAmount(), HoningConfig::MAX_HONING_BOOK_AMOUNT);
+	}
+
+	//no material use input
+	inline static HoningInput getEmptyInput()
+	{
+		return HoningInput(1, 0.0f, 0, 0, 0, 0);
+	}
+
+	//full material use input (is the same as getMaxInput, but this method here can have honing book amount set to 0)
+	inline static HoningInput getFullInput(const HoningParameter& honingParameter)
+	{
+		return HoningInput(1, 0.0f, honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(),
+						   honingParameter.getMaxSolarProtectionAmount(), 
+						   HoningConfig::useBooksForFullMaterialCalc ? HoningConfig::MAX_HONING_BOOK_AMOUNT : 0);
 	}
 
 	HoningInput getHoningInputForNextTry(const HoningParameter& honingParameter, char solarGraceToUse, char solarBlessingToUse, char solarProtectionToUse, char honingBookToUse) const
@@ -119,6 +134,12 @@ struct HoningInput
 	{
 		return artisansEnergy + HoningConfig::ARTISANS_ENERGY_MULTIPLIER * getTotalHoningSuccessRate(baseHoningRates) 
 			+ HoningConfig::ARTISANS_ENERGY_ADDED_FLAT;
+	}
+
+	bool hasEqualMaterialsUsed(const HoningInput& other) const
+	{
+		return this->solarGraceToUse == other.solarGraceToUse && this->solarBlessingToUse == other.solarBlessingToUse &&
+			this->solarProtectionToUse == other.solarProtectionToUse && this->honingBookToUse == other.honingBookToUse;
 	}
 
 };

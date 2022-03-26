@@ -4,7 +4,7 @@
 
 static const std::string configPath = "LostArkCalculatorConfig.txt";
 
-static float configVersion = 4.0f;
+static float configVersion = 5.0f;
 
 namespace HoningConfig {
 	//default maximum amount that can be used per upgrade
@@ -40,6 +40,7 @@ namespace HoningConfig {
 	static bool isIlvl1340Set;
 	static bool useMarysShopPrices;
 	static bool useT3StrongholdHoningResearch;
+	static bool useBooksForFullMaterialCalc;
 	static int itemHoningLevel;
 }
 
@@ -124,7 +125,8 @@ inline bool loadConfig()
 		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, false, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
 		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar materials after already failing some previous upgrades (otherwise leave at 0)");
 		HoningConfig::useMarysShopPrices = configFile.getNextValueBool(2.0f, true, "Also include Marys Shop prices for honing materials and use the cheapest for calculation");
-		HoningConfig::useT3StrongholdHoningResearch = configFile.getNextValueBool(4.0f, false, "Are you using the T3 Stronghold Honing Research for alts with your main being ilvl 1385+ ?)");
+		HoningConfig::useT3StrongholdHoningResearch = configFile.getNextValueBool(4.0f, false, "Are you using the T3 Stronghold Honing Research for alts with your main being over ilvl 1385?");
+		HoningConfig::useBooksForFullMaterialCalc = configFile.getNextValueBool(5.0f, false, "Should Honing Books be displayed in the alternative full material use Calculation for comparison(does not affect main Calculation)?");
 		HoningConfig::itemHoningLevel = configFile.getNextValueFloat(0.1f, 0.0f, "The current Honing Item Level of your Gear (the number on your Gear from 0 to 19)");
 
 		MarysPrices::honorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 10.0f, "\n\nMarys Shop\nHonor Leapstone Amount", 20.0f, "Honor Leapstone Crystal Cost"));

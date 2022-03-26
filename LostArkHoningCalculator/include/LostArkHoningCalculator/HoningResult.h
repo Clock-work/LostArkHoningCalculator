@@ -12,7 +12,7 @@ struct HoningResult
 
 	}
 
-	inline void output(const HoningParameter& honingParameter, bool isWeapon)
+	inline void output(const HoningParameter& honingParameter, bool isWeapon) const
 	{
 		std::cout << "Honing try " << honingInput.tryNumber;
 		std::cout << " (Base Honing Rate " << honingInput.getBaseHoningSuccessRate(honingParameter) << "%) with ";
