@@ -1,5 +1,6 @@
 #pragma once
 #include "HoningParameter.h"
+#include <math.h>
 
 //the input parameter for the try with the given tryNumber
 struct HoningInput
@@ -59,10 +60,16 @@ struct HoningInput
 
 	//the additional chance with the selected amount of solar materials 
 	//DOES NOT INCLUDE the additional honing book chance 
+	//can not be higher than the base success rate from honingparameter
 	float getAdditionalSolarSuccessRate(const HoningParameter& honingParameter) const
 	{
-		return solarGraceToUse * honingParameter.solarGraceChance + solarBlessingToUse * honingParameter.solarBlessingChance
+		float solarRate =  solarGraceToUse * honingParameter.solarGraceChance + solarBlessingToUse * honingParameter.solarBlessingChance
 			+ solarProtectionToUse * honingParameter.solarProtectionChance;
+		if (isMore(solarRate, honingParameter.successRateAsDecimal))
+		{
+			solarRate = honingParameter.successRateAsDecimal;
+		}
+		return solarRate;
 	}
 
 	float getAdditionalHoningBookSuccessRate() const
@@ -72,11 +79,13 @@ struct HoningInput
 
 	//returns the total successrate including the additional base chance from failing and also the solar amount used and also the artisansEnergy
 	//also includes the honing books
+	//will not be above 100.0f
 	float getTotalHoningSuccessRate(const HoningParameter& honingParameter) const
 	{
 		if ( isMore(artisansEnergy, 99.9f) )//if artisans energy is at 100, then this try is always successful
 			return 100.0f;
-		return getBaseHoningSuccessRate(honingParameter) + getAdditionalSolarSuccessRate(honingParameter) + getAdditionalHoningBookSuccessRate();
+		float totalRate = getBaseHoningSuccessRate(honingParameter) + getAdditionalSolarSuccessRate(honingParameter) + getAdditionalHoningBookSuccessRate();
+		return std::min(totalRate, 100.0f);
 	}
 
 	//returns the additional cost of the solar pieces used
@@ -87,9 +96,9 @@ struct HoningInput
 			solarProtectionToUse * getSolarProtectionCost();
 	}
 
-	float getAdditionalHoningBookCost(bool isWeapon) const
+	float getAdditionalHoningBookCost(bool isWeapon, bool isIlvl1340Set) const
 	{
-		return honingBookToUse * getHoningBookCost(isWeapon);
+		return honingBookToUse * getHoningBookCost(isWeapon, isIlvl1340Set);
 	}
 
 	//returns the total cost including the additional cost of the solar pieces used and the cost of the base honing materials 
@@ -101,13 +110,15 @@ struct HoningInput
 		{
 			return 999999999999.0f;
 		}
-		return honingParameter.getBaseHoningCost(isWeapon) + getAdditionalSolarCost() + getAdditionalHoningBookCost(isWeapon);
+		return honingParameter.getBaseHoningCost(isWeapon) + getAdditionalSolarCost() 
+			+ getAdditionalHoningBookCost(isWeapon, honingParameter.isIlvl1340Set);
 	}
 
 	//returns the artisans energy for the next try after this one failed
 	float getNextArtisansEnergy(const HoningParameter& baseHoningRates) const
 	{
-		return artisansEnergy + HoningConfig::ARTISANS_ENERGY_MULTIPLIER * getTotalHoningSuccessRate(baseHoningRates) + HoningConfig::ARTISANS_ENERGY_ADDED_FLAT;
+		return artisansEnergy + HoningConfig::ARTISANS_ENERGY_MULTIPLIER * getTotalHoningSuccessRate(baseHoningRates) 
+			+ HoningConfig::ARTISANS_ENERGY_ADDED_FLAT;
 	}
 
 };

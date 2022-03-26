@@ -185,12 +185,12 @@ inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340S
 {
 	HoningParameter honingParameter { currentItemHoningLevel + 1, isIlvl1340Set };
 
-	int honingBookAmount = 1;
+	int honingBookAmount = 0;
 
 	if (isIlvl1340Set)
 	{
 		std::cout << "For the ilvl 1340 set it's best to buy the weapon and 1 armour from abyss dungeon and 2 armour pieces from argos in the first week" << std::endl;
-		std::cout << "Then upgrade the weapon to +11, the 2 armour pieces from abyss dungeon to +8 and the other armour pieces to +17" << std::endl;
+		std::cout << "Then upgrade the weapon to +11, chest and leg armour to +8 and the other armour pieces to +17 to reach ilvl 1415" << std::endl << std::endl;
 	}
 
 

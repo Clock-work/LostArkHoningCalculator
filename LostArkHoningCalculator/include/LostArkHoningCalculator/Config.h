@@ -23,19 +23,24 @@ namespace HoningConfig {
 	//effectiveness multiplier for the chance
 	static const float BLESSING_TO_PROTECTION_MULTIPLIER = 3.0;
 	//the limit of the added honing chance from solar material combined
-	static const float MAX_ADDITIONAL_SOLAR_CHANCE = 34.01f;
+	//todo: new: seems like this is no longer valid
+	static const float MAX_ADDITIONAL_SOLAR_CHANCE = 340.01f;
 
 	//the multiplier to the base chance that gets added as artisans energy on a failed honing attempt
 	static const float ARTISANS_ENERGY_MULTIPLIER = 0.465168;
 
 	static const float ARTISANS_ENERGY_ADDED_FLAT = -0.0000772596;
 
+	//todo: test if the research also affects the solar material chance 
+	static const float T3_STRONGHOLD_HONING_RESEARCH_ADD = 10.0f;
+
 	//how much silver 1 gold would be worth
 	static int silverAmountPerGold;
-	static int itemHoningLevel;
 	static float baseHoningSuccessRate;
 	static bool isIlvl1340Set;
 	static bool useMarysShopPrices;
+	static bool useT3StrongholdHoningResearch;
+	static int itemHoningLevel;
 }
 
 namespace MarketPrices {
@@ -119,6 +124,7 @@ inline bool loadConfig()
 		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, false, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
 		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar materials after already failing some previous upgrades (otherwise leave at 0)");
 		HoningConfig::useMarysShopPrices = configFile.getNextValueBool(2.0f, true, "Also include Marys Shop prices for honing materials and use the cheapest for calculation");
+		HoningConfig::useT3StrongholdHoningResearch = configFile.getNextValueBool(4.0f, false, "Are you using the T3 Stronghold Honing Research for alts with your main being ilvl 1385+ ?)");
 		HoningConfig::itemHoningLevel = configFile.getNextValueFloat(0.1f, 0.0f, "The current Honing Item Level of your Gear (the number on your Gear from 0 to 19)");
 
 		MarysPrices::honorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 10.0f, "\n\nMarys Shop\nHonor Leapstone Amount", 20.0f, "Honor Leapstone Crystal Cost"));
@@ -198,8 +204,13 @@ inline float getSolarProtectionCost()
 		return MarketPrices::solarProtection;
 }
 
-inline float getHoningBookCost(bool isWeapon)
+inline float getHoningBookCost(bool isWeapon, bool isIlvl1340Set)
 {
+	if (isIlvl1340Set)
+	{
+		//todo: not implemented yet 
+		return 99999999.9f;
+	}
 	if ( isWeapon )
 		return MarketPrices::metallurgyWeldingBook;
 	else

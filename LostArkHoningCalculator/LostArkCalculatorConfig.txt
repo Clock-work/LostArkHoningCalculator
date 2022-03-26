@@ -29,10 +29,11 @@ Powder of Sage:99
 
 
 Honing Config
-Are you using the Item Level 1340 Set with Great Honor Leapstones?(true/false):false
+Are you using the Item Level 1340 Set with Great Honor Leapstones?(true/false):true
 Your current Base Honing Success Rate without Solar stuff after failing an upgrade (otherwise leave at 0):0
 Also include Marys Shop prices for honing materials and use the cheapest for calculation:true
-The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):14
+Are you using the T3 Stronghold Honing Research for alts with your main being ilvl 1385+ ?:false
+The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):6
 
 
 Marys Shop
