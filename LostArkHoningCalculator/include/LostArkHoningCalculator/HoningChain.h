@@ -110,14 +110,14 @@ struct BestHoningChain
 
 	}
 
-	BestHoningChain(BestHoningChain&& other)
+	BestHoningChain(BestHoningChain&& other) noexcept
 		: honingParameter(other.honingParameter), isWeapon(other.isWeapon), hadBranches(other.hadBranches), 
 		elements(std::move(other.elements))
 	{
 
 	}
 
-	BestHoningChain& operator=(BestHoningChain&& other)
+	BestHoningChain& operator=(BestHoningChain&& other) noexcept
 	{
 		elements = std::move(other.elements);
 		const_cast<HoningParameter&>(honingParameter) = other.honingParameter;
@@ -136,7 +136,7 @@ struct BestHoningChain
 	}
 
 	//logs the average stats of the honing with the text "beginning" being the start of the log before " has an average cost..."
-	//one additional line break at the end and beginning will be printed to the console if additionalLineBreaks is true
+	//one additional line break at the beginning will be printed to the console if additionalLineBreaks is true
 	void outputAverageHoning(const std::string& beginning, bool additionalLineBreaks = false) const
 	{
 		if (additionalLineBreaks)
@@ -146,12 +146,10 @@ struct BestHoningChain
 			<< averageTries << " tries, " << honingParameter.weaponLeapstoneCost * averageTries << " leapstones and "
 			<< honingParameter.destructionStoneCost * averageTries << " destruction stones. And it has a maximum of "
 			<< elements.size() << " tries." << std::endl;
-		if (additionalLineBreaks)
-			std::cout << std::endl;
 	}
 
 	//logs the average stats of the honing with the text "Your Armour", or "Your Weapon"
-	//one additional line break at the end and beginning will be printed to the console
+	//one additional line break at the beginning will be printed to the console
 	void outputAverageHoning() const
 	{
 		std::cout << std::endl;

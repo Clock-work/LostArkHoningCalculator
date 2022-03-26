@@ -25,20 +25,31 @@ namespace HoningConfig {
 	//the limit of the added honing chance from solar material combined
 	//todo: new: seems like this is no longer valid
 	static const float MAX_ADDITIONAL_SOLAR_CHANCE = 340.01f;
-
 	//the multiplier to the base chance that gets added as artisans energy on a failed honing attempt
 	static const float ARTISANS_ENERGY_MULTIPLIER = 0.465168;
-
 	static const float ARTISANS_ENERGY_ADDED_FLAT = -0.0000772596;
 
 	//todo: test if the research also affects the solar material chance 
 	static const float T3_STRONGHOLD_HONING_RESEARCH_ADD = 10.0f;
+
+	//at +3 base!!!!!!!
+	static const float lowSetBaseGearScore = 1310.0f;
+	static const int lowSetBaseHoningLevel = 3;
+	static const int lowSetMaxHoningLevel = 15;
+	//at +0 base 
+	static const float mediumSetBaseGearScore = 1340.0f;
+	static const int mediumSetBaseHoningLevel = 0;
+	static const int mediumSetMaxHoningLevel = 20;
+
+	static const float baseGearScorePerHone = 5.0f / 6.0f;
+	static const float baseGearScorePerHoneAt16HonesAndAbove = baseGearScorePerHone * 3;
 
 	//how much silver 1 gold would be worth
 	static int silverAmountPerGold;
 	static float baseHoningSuccessRate;
 	static bool isIlvl1340Set;
 	static bool useMarysShopPrices;
+	static float targetGearScore;
 	static bool useT3StrongholdHoningResearch;
 	static bool useBooksForFullMaterialCalc;
 	static int itemHoningLevel;
@@ -124,9 +135,10 @@ inline bool loadConfig()
 
 		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, false, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
 		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar materials after already failing some previous upgrades (otherwise leave at 0)");
-		HoningConfig::useMarysShopPrices = configFile.getNextValueBool(2.0f, true, "Also include Marys Shop prices for honing materials and use the cheapest for calculation");
-		HoningConfig::useT3StrongholdHoningResearch = configFile.getNextValueBool(4.0f, false, "Are you using the T3 Stronghold Honing Research for alts with your main being over ilvl 1385?");
-		HoningConfig::useBooksForFullMaterialCalc = configFile.getNextValueBool(5.0f, false, "Should Honing Books be displayed in the alternative full material use Calculation for comparison(does not affect main Calculation)?");
+		HoningConfig::useMarysShopPrices = configFile.getNextValueBool(2.0f, true, "Also include Marys Shop prices for honing materials and use the cheapest for calculation(true/false)");
+		HoningConfig::targetGearScore = configFile.getNextValueFloat(5.0f, 0.0f, "Only Set Your Target Gear ItemLevel here 1340-1500 if you want to compute the best individual gear upgrade count(leave at 0 to disable)");
+		HoningConfig::useT3StrongholdHoningResearch = configFile.getNextValueBool(4.0f, false, "Are you using the T3 Stronghold Honing Research for alts with your main being over ilvl 1385?(true/false)");
+		HoningConfig::useBooksForFullMaterialCalc = configFile.getNextValueBool(5.0f, false, "Should Honing Books be displayed in the alternative full material use Calculation for comparison(does not affect main Calculation)?(true/false)");
 		HoningConfig::itemHoningLevel = configFile.getNextValueFloat(0.1f, 0.0f, "The current Honing Item Level of your Gear (the number on your Gear from 0 to 19)");
 
 		MarysPrices::honorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 10.0f, "\n\nMarys Shop\nHonor Leapstone Amount", 20.0f, "Honor Leapstone Crystal Cost"));

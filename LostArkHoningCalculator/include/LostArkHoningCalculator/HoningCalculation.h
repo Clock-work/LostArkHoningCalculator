@@ -250,6 +250,3 @@ static void printHoningCalculation()
 {
 	calculateHoningForLevel(HoningConfig::itemHoningLevel, HoningConfig::isIlvl1340Set);
 }
-
-
-

@@ -1,4 +1,5 @@
-#include "LostArkHoningCalculator/LostArkHoning.h"
+#include "LostArkHoningCalculator/HoningCalculation.h"
+#include "LostArkHoningCalculator/GearScoreSelection.h"
 #include "LostArkHoningCalculator/Config.h"
 #include "LostArkHoningCalculator/utils/Http.h"
 #include "LostArkHoningCalculator/ChaosExchange.h"
@@ -81,7 +82,10 @@ int main()
 
 		sleep(1500);
 
+		printBestTargetGearScoreSelection();
+
 		printHoningCalculation();
+
 	}
 	catch ( std::exception e )
 	{
