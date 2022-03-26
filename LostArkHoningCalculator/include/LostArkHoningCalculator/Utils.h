@@ -100,15 +100,11 @@ inline std::vector<std::string> readUtf8FileToLines(const std::string& filePath)
 				lines.emplace_back(std::move(line));
 			}
 		}
-		if ( lines.empty() )
-		{
-			std::cout << std::string(std::string("error reading file: ") + filePath);
-		}
 	}
 	catch ( const std::exception& e )
 	{
 		lines.clear();
-		std::cout << std::string(std::string("error reading file: ") + filePath + " exception: " + e.what());
+		std::cout << std::string(std::string("error reading file: ") + filePath + " exception: " + e.what()) << std::endl;
 	}
 	return lines;
 }
