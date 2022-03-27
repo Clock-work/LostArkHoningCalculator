@@ -139,12 +139,15 @@ struct BestHoningChain
 	//one additional line break at the beginning will be printed to the console if additionalLineBreaks is true
 	void outputAverageHoning(const std::string& beginning, bool additionalLineBreaks = false) const
 	{
+		std::string upgradeStones = "guardian stones";
+		if (isWeapon)
+			upgradeStones = "destruction stones";
 		if (additionalLineBreaks)
 			std::cout << std::endl;
 		float averageTries = getAverageTries();
 		std::cout << std::endl << beginning << " has an average cost of " << getAverageCost() << " gold and needs on average "
 			<< averageTries << " tries, " << honingParameter.weaponLeapstoneCost * averageTries << " leapstones and "
-			<< honingParameter.destructionStoneCost * averageTries << " destruction stones. And it has a maximum of "
+			<< honingParameter.destructionStoneCost * averageTries << " " << upgradeStones <<". And it has a maximum of "
 			<< elements.size() << " tries." << std::endl;
 	}
 
