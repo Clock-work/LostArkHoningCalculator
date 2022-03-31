@@ -1,10 +1,10 @@
-Config Version(Don't change!):5
+Config Version(Don't change!):6
 Edit all config values here according to your market prices and your Gear Honing Level 
 
 
 
 Currency Exchange Buy Crystals
-Gold Cost:805,810,765,650,619,532,493
+Gold Cost:805,810,765,650,619,532,493,487
 Crystals gained:95
 
 How much Silver would 1 Gold be worth for you?(the gold exchange vendor would give 100 Silver for 1 Gold):500
@@ -12,20 +12,20 @@ How much Silver would 1 Gold be worth for you?(the gold exchange vendor would gi
 
 
 Auction House Market Prices
-Honor Leapstone:100,120,110,93,97,57,40,32,23
-Great Honor Leapstone:332,420,389,400,410,232,160,150,114
-Simple Oreha Fusion Material:11,14,11,11,9,8,10,9
-Basic Oreha Fusion Material:14,20,13,12,9,11,10
-Destruction Stone Crystal(for 10):80,72,46,41,37,21,18,17,14
-Guardian Stone Crystal(for 10):52,49,33,31,24,39,15,17,16
-Solar Grace:45,70,45,51,49,38,37,32,27
-Solar Blessing:186,220,158,171,189,150,137,90,80
-Solar Protection:405,499,396,385,395,300,298,213,178
+Honor Leapstone:100,120,110,93,97,57,40,32,23,19,15
+Great Honor Leapstone:332,420,389,400,410,232,160,150,114,84,78
+Simple Oreha Fusion Material:11,14,11,11,9,8,10,9,8
+Basic Oreha Fusion Material:14,20,13,12,9,11,10,9
+Destruction Stone Crystal(for 10):80,72,46,41,37,21,18,17,14,12
+Guardian Stone Crystal(for 10):52,49,33,31,24,39,15,17,16,12
+Solar Grace:45,70,45,51,49,38,37,32,27,25
+Solar Blessing:186,220,158,171,189,150,137,90,80,85
+Solar Protection:405,499,396,385,395,300,298,213,178,198,205
 Metallurgy: Basic Welding:4500,2800,2000
 Tailoring: Basic Mending:2500,1750,1174
-Small Honor Shard Pouch:42,39,24
-Large Honor Shard Pouch:108,53
-Powder of Sage:99,95
+Small Honor Shard Pouch:42,39,24,23
+Large Honor Shard Pouch:108,75,84
+Powder of Sage:99,95,97
 
 
 Honing Config

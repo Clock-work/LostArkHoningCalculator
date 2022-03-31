@@ -25,6 +25,15 @@ inline float getAverageTriesOfHoningChain(const std::vector<HoningResult>& honin
 	}
 	return tries;
 }
+inline float getMaximumCostOfHoningChain(const std::vector<HoningResult>& honingChain, const HoningParameter& honingParameter, bool isWeapon)
+{
+	float cost = 0.0f;
+	for (const HoningResult& result : honingChain)
+	{
+		cost += result.honingInput.getTotalHoningCost(honingParameter, isWeapon);
+	}
+	return cost;
+}
 
 struct BestHoningChain;
 
@@ -134,6 +143,10 @@ struct BestHoningChain
 	{
 		return ::getAverageTriesOfHoningChain(elements, honingParameter);
 	}
+	inline float getMaximumCost() const
+	{
+		return ::getMaximumCostOfHoningChain(elements, honingParameter, isWeapon);
+	}
 
 	//logs the average stats of the honing with the text "beginning" being the start of the log before " has an average cost..."
 	//one additional line break at the beginning will be printed to the console if additionalLineBreaks is true
@@ -146,9 +159,10 @@ struct BestHoningChain
 			std::cout << std::endl;
 		float averageTries = getAverageTries();
 		std::cout << std::endl << beginning << " has an average cost of " << getAverageCost() << " gold and needs on average "
-			<< averageTries << " tries, " << honingParameter.weaponLeapstoneCost * averageTries << " leapstones and "
-			<< honingParameter.destructionStoneCost * averageTries << " " << upgradeStones <<". And it has a maximum of "
-			<< elements.size() << " tries." << std::endl;
+			<< averageTries << " tries with a total of " << honingParameter.weaponLeapstoneCost * averageTries << " leapstones and "
+			<< honingParameter.destructionStoneCost * averageTries << " " << upgradeStones;
+		std::cout << ". If you are unlucky, it can take up to " << elements.size() << " tries and cost up to " << getMaximumCost() << " gold.";
+		std::cout << std::endl;
 	}
 
 	//logs the average stats of the honing with the text "Your Armour", or "Your Weapon"

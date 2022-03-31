@@ -7,7 +7,7 @@
 #include <thread>
 
 //the amount of combinations that will be used
-short getMaxAmountOfBranches(const HoningInput& honingInput, char* addToCounterTable)
+inline short getMaxAmountOfBranches(const HoningInput& honingInput, char* addToCounterTable)
 {
 	short amountOfBranches = 1;
 	if ( honingInput.solarGraceToUse > 1 )
@@ -189,54 +189,7 @@ inline BestHoningChain getFullChain(const HoningParameter& honingParameter, bool
 	return fullChainStep(honingParameter, isWeapon, honingInput).getBestChain(honingParameter, isWeapon, false);
 }
 
-inline void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set)
-{
-	HoningParameter honingParameter { currentItemHoningLevel + 1, isIlvl1340Set };
-
-	BestHoningChain honingChainWeapon;
-	BestHoningChain honingChainArmour;
-
-	std::cout << "Calculating..." << std::endl;
-	std::thread t1([&] ()
-	{
-		honingChainWeapon = startHoningChain(honingParameter, true);
-	});
-	std::thread t2([&] ()
-	{
-		honingChainArmour = startHoningChain(honingParameter, false);
-	});
-
-	BestHoningChain fullChainWeapon = getFullChain(honingParameter, true, HoningInput::getFullInput(honingParameter));
-	BestHoningChain emptyChainWeapon = getFullChain(honingParameter, true, HoningInput::getEmptyInput());
-	BestHoningChain fullChainArmour = getFullChain(honingParameter, false, HoningInput::getFullInput(honingParameter));
-	BestHoningChain emptyChainArmour = getFullChain(honingParameter, false, HoningInput::getEmptyInput());
-	t1.join();
-	t2.join();
-
-	std::cout << std::endl << "Honing Calculation for your Gear from +" << currentItemHoningLevel << " to +" << currentItemHoningLevel + 1 << std::endl << std::endl;
-
-	if ( HoningConfig::useMarysShopPrices )
-		std::cout << "Marys shop prices will also be used for this calculation (you can change this in the config)" << std::endl << std::endl;
-	else
-		std::cout << "Marys shop prices will not be used for this calculation (you can change this in the config)" << std::endl << std::endl;
-
-
-	honingChainWeapon.output();
-	if (!honingChainWeapon.hasSameMaterialsUsed(fullChainWeapon))
-		fullChainWeapon.output();
-	if (!honingChainWeapon.hasSameMaterialsUsed(emptyChainWeapon))
-		emptyChainWeapon.output();
-
-	honingChainArmour.output();
-	if (!honingChainArmour.hasSameMaterialsUsed(fullChainArmour))
-		fullChainArmour.output();
-	if (!honingChainArmour.hasSameMaterialsUsed(emptyChainArmour))
-		emptyChainArmour.output();
-
-	std::cout << std::endl << std::endl;
-
-	//double finalGoldCost = ( 1 / ( totalSuccessRate / 100 ) ) * tempGoldCost;
-}
+void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set);
 
 static void printHoningCalculation()
 {

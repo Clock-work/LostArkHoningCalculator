@@ -5,12 +5,14 @@
 #include <vector>
 #include <thread>
 
+extern void* hConsole;
+
+void setConsoleColour(int colour);
+
 //returns how much cheaper the target is than the source in 1% to n%. 
 //a negative result means that the target is more expensive
-inline float howMuchCheaper(float cheaperTarget, float expensiveSource)
-{
-	return ( 1.0f - cheaperTarget / expensiveSource ) * 100.0f;
-}
+//also colours the console output green if positive and red if negative
+float howMuchCheaper(float cheaperTarget, float expensiveSource);
 
 inline bool isLess(float less, float more)
 {

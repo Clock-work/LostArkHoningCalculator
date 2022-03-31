@@ -3,14 +3,18 @@
 #include "LostArkHoningCalculator/Config.h"
 #include "LostArkHoningCalculator/utils/Http.h"
 #include "LostArkHoningCalculator/ChaosExchange.h"
+#include <algorithm>
 
 void printMarysShop()
 {
+	setConsoleColour(13);
 	std::cout << std::endl << "Printing how much cheaper the following Materials would be from Marys Shop" << std::endl;
+	setConsoleColour(15);
 	std::cout << std::endl << "Negative Numbers mean that it's more expensive!" << std::endl;
 
 	std::cout << std::endl << "Honor Leapstone: " << howMuchCheaper(MarysPrices::honorLeapstone, MarketPrices::honorLeapstone) << "% cheaper" << std::endl;
 	std::cout << std::endl << "Greater Honor Leapstone: " << howMuchCheaper(MarysPrices::greaterHonorLeapstone, MarketPrices::greaterHonorLeapstone) << "% cheaper" << std::endl;
+	std::cout << std::endl << "Normal to Greater Leapstone(5 : 1 trade): " << howMuchCheaper(MarysPrices::honorLeapstone * 5, MarketPrices::greaterHonorLeapstone) << "% cheaper" << std::endl;
 
 	std::cout << std::endl << "Simple Fusion Material: " << howMuchCheaper(MarysPrices::simpleFusion, MarketPrices::simpleFusion) << "% cheaper" << std::endl;
 	std::cout << std::endl << "Basic Fusion Material: " << howMuchCheaper(MarysPrices::basicFusion, MarketPrices::basicFusion) << "% cheaper" << std::endl;
@@ -22,7 +26,8 @@ void printMarysShop()
 	std::cout << std::endl << "Solar Blessing: " << howMuchCheaper(MarysPrices::solarBlessing, MarketPrices::solarBlessing) << "% cheaper" << std::endl;
 	std::cout << std::endl << "Solar Protection: " << howMuchCheaper(MarysPrices::solarProtection, MarketPrices::solarProtection) << "% cheaper" << std::endl;
 
-	std::cout << std::endl << std::endl;
+	std::cout << std::endl << std::endl << std::endl;
+	setConsoleColour(15);
 }
 
 bool hasNewVersion()
@@ -49,14 +54,60 @@ bool hasNewVersion()
 	return false;
 }
 
+void calculatePreciseDaggervsHitmaster()
+{
+	float attributeCrit = 19.68f;
+	float cardCrit = 0.0f;
+	float setCrit = 15.0f;
+	
+	float baseCrit = attributeCrit + cardCrit + setCrit;
+	float baseCritDmg = 200.0f;
+
+	float setBurstCrit = 25.0f;
+
+	float igniteBurstCrit = baseCrit + setBurstCrit + 25.0f;
+	float igniteBurstCritDmg = baseCritDmg + 50.0f;
+
+
+	//not sure if this affects the efficiency, or if it's a more multiplier 
+	float otherDmgIncrease = 0.0f;
+
+
+	float hitDmgMul = 16.0f;
+	float daggerCritDmg = -12.0f;
+	float daggerCrit =  20.0f;
+	float bluntCritDmg = 50.0f;
+	float bluntDmgMulti = -2.0f;
+
+	float baseDmgHit = std::min(baseCrit, 100.0f) / 100 * (baseCritDmg + bluntCritDmg) / 100 * (1 + (otherDmgIncrease + hitDmgMul) / 100);
+	float baseDmgPrecise = std::min(baseCrit + daggerCrit, 100.0f) / 100 * (baseCritDmg + daggerCritDmg) / 100 * (1 + otherDmgIncrease / 100);
+	float baseDmgBlunt = std::min(baseCrit, 100.0f) / 100 * baseCritDmg / 100 * (1 + (otherDmgIncrease + bluntDmgMulti) / 100);
+
+	float igniteDmgHit = std::min(igniteBurstCrit, 100.0f) / 100 * igniteBurstCritDmg / 100 * (1 + (otherDmgIncrease + hitDmgMul) / 100);
+	float igniteDmgPrecise = std::min(igniteBurstCrit + daggerCrit, 100.0f) / 100 * (igniteBurstCritDmg + daggerCritDmg) / 100 * (1 + otherDmgIncrease / 100);
+	float igniteDmgBlunt = std::min(igniteBurstCrit, 100.0f) / 100 * (igniteBurstCritDmg + bluntCritDmg) / 100 * (1 + (otherDmgIncrease + bluntDmgMulti) / 100);
+
+	float totalHit = baseDmgHit * 1.5 + igniteDmgHit;
+	float totalPrecise = baseDmgPrecise * 1.5 + igniteDmgPrecise;
+	float totalBlunt = baseDmgBlunt * 1.5 + igniteDmgBlunt;
+
+	//result: until i have the card set, or more base crit, precise dagger is more efficient than hit master (if the set burts crit is not always up)
+	//but if i have more specialization and can proc ignite more often, then hit master can also gain efficiency 
+	int test;
+
+}
+
 int main()
 {
 	try
 	{
-		std::cout << std::endl << "Started T3 Lost Ark Calculator!" << std::endl << std::endl;
-		std::cout << std::endl << "This will show you the most effecient way to hone your gear including artisans energy and how much solar grace, blessing, protection to use." << std::endl << std::endl;
-		std::cout << std::endl << "The final cost does not include the upgrade cost of the first step with Silver and Honor shards!" << std::endl << std::endl;
-		std::cout << std::endl << "After +12 The Program can take a few minutes to calculate and needs 2 GB of free RAM!" << std::endl << std::endl;
+		calculatePreciseDaggervsHitmaster();
+		setConsoleColour(13);
+		std::cout << "Started T3 Lost Ark Calculator!" << std::endl << std::endl;
+		setConsoleColour(15);
+		std::cout << "This will show you the most effecient way to hone your gear including artisans energy and how much solar grace, blessing, protection to use." << std::endl;
+		std::cout << "The final cost does not include the upgrade cost of the first step with Silver and Honor shards!" << std::endl;
+		std::cout << "After +12 The Program can take a few minutes to calculate and needs 2 GB of free RAM!" << std::endl;
 		if ( loadConfig() )
 		{
 			std::cout << "The config file has changed with new options, or was just created." << std::endl;
@@ -74,18 +125,19 @@ int main()
 			return 1;
 		}
 
-		sleep(1500);
+		sleep(2500);
 
 		printMarysShop();
 
 		printChaosExchange();
 
-		sleep(1500);
+		sleep(2500);
 
 		printBestTargetGearScoreSelection();
 
 		printHoningCalculation();
 
+		setConsoleColour(15);
 	}
 	catch ( std::exception e )
 	{

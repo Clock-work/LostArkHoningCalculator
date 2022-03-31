@@ -17,6 +17,6 @@ void printChaosExchange()
 {
 	std::vector<ChaosExchangeMat> mats;
 	mats.emplace_back("Honor Leapstone", MarketPrices::honorLeapstone, std::vector<int>{100, 130, 170, 200, 230});
-	mats.emplace_back("Greater Honor Leapstone", MarketPrices::greaterHonorLeapstone, std::vector<int>{130, 170, 200, 240, 280});
+	mats.emplace_back("Greater Honor Leapstone", MarketPrices::greaterHonorLeapstone, std::vector<int>{130, 170, 200, 240, 280, 310});
 
 }
