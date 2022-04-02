@@ -56,14 +56,14 @@ bool hasNewVersion()
 
 void calculatePreciseDaggervsHitmaster()
 {
-	float attributeCrit = 19.68f;
+	float attributeCrit = 16.68f;
 	float cardCrit = 0.0f;
 	float setCrit = 15.0f;
 	
 	float baseCrit = attributeCrit + cardCrit + setCrit;
 	float baseCritDmg = 200.0f;
 
-	float setBurstCrit = 25.0f;
+	float setBurstCrit = 25.0f - setCrit;
 
 	float igniteBurstCrit = baseCrit + setBurstCrit + 25.0f;
 	float igniteBurstCritDmg = baseCritDmg + 50.0f;
@@ -79,17 +79,20 @@ void calculatePreciseDaggervsHitmaster()
 	float bluntCritDmg = 50.0f;
 	float bluntDmgMulti = -2.0f;
 
-	float baseDmgHit = std::min(baseCrit, 100.0f) / 100 * (baseCritDmg + bluntCritDmg) / 100 * (1 + (otherDmgIncrease + hitDmgMul) / 100);
-	float baseDmgPrecise = std::min(baseCrit + daggerCrit, 100.0f) / 100 * (baseCritDmg + daggerCritDmg) / 100 * (1 + otherDmgIncrease / 100);
-	float baseDmgBlunt = std::min(baseCrit, 100.0f) / 100 * baseCritDmg / 100 * (1 + (otherDmgIncrease + bluntDmgMulti) / 100);
+	float noCritDmgHit = 1 + (otherDmgIncrease + hitDmgMul) / 100.0f;
+	float noCritDmg = 1 + (otherDmgIncrease) / 100.0f;
 
-	float igniteDmgHit = std::min(igniteBurstCrit, 100.0f) / 100 * igniteBurstCritDmg / 100 * (1 + (otherDmgIncrease + hitDmgMul) / 100);
-	float igniteDmgPrecise = std::min(igniteBurstCrit + daggerCrit, 100.0f) / 100 * (igniteBurstCritDmg + daggerCritDmg) / 100 * (1 + otherDmgIncrease / 100);
-	float igniteDmgBlunt = std::min(igniteBurstCrit, 100.0f) / 100 * (igniteBurstCritDmg + bluntCritDmg) / 100 * (1 + (otherDmgIncrease + bluntDmgMulti) / 100);
+	float baseDmgHit = (std::min(baseCrit, 100.0f) / 100 * baseCritDmg / 100 * (1 + (otherDmgIncrease + hitDmgMul) / 100) + noCritDmgHit)/ 2.0f;
+	float baseDmgPrecise = (std::min(baseCrit + daggerCrit, 100.0f) / 100 * (baseCritDmg + daggerCritDmg) / 100 * (1 + otherDmgIncrease / 100) + noCritDmg) / 2.0f;
+	float baseDmgBlunt = (std::min(baseCrit, 100.0f) / 100 * (baseCritDmg + bluntCritDmg) / 100 * (1 + (otherDmgIncrease + bluntDmgMulti) / 100) + noCritDmg)/2.0f;
 
-	float totalHit = baseDmgHit * 1.5 + igniteDmgHit;
-	float totalPrecise = baseDmgPrecise * 1.5 + igniteDmgPrecise;
-	float totalBlunt = baseDmgBlunt * 1.5 + igniteDmgBlunt;
+	float igniteDmgHit = (std::min(igniteBurstCrit, 100.0f) / 100 * igniteBurstCritDmg / 100 * (1 + (otherDmgIncrease + hitDmgMul) / 100) + noCritDmgHit) / 2.0f;
+	float igniteDmgPrecise = (std::min(igniteBurstCrit + daggerCrit, 100.0f) / 100 * (igniteBurstCritDmg + daggerCritDmg) / 100 * (1 + otherDmgIncrease / 100) + noCritDmg) / 2.0f;
+	float igniteDmgBlunt = (std::min(igniteBurstCrit, 100.0f) / 100 * (igniteBurstCritDmg + bluntCritDmg) / 100 * (1 + (otherDmgIncrease + bluntDmgMulti) / 100) + noCritDmg) / 2.0f;
+
+	float totalHit = (baseDmgHit * 1.5 + igniteDmgHit) /2.0f;
+	float totalPrecise = (baseDmgPrecise * 1.5 + igniteDmgPrecise)/2.0f;
+	float totalBlunt = (baseDmgBlunt * 1.5 + igniteDmgBlunt)/2.0f;
 
 	//result: until i have the card set, or more base crit, precise dagger is more efficient than hit master (if the set burts crit is not always up)
 	//but if i have more specialization and can proc ignite more often, then hit master can also gain efficiency 
