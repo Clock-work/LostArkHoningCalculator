@@ -25,7 +25,7 @@ namespace utils {
 
 	bool isEqual(float a, float b, float epsilon /*= 0.0001f*/)
 	{
-		return std::abs(a - b) < epsilon;
+		return fabs(a - b) < epsilon;
 	}
 
 	bool isLessThan(float less, float more, float epsilon /*= epsilon*/)
@@ -60,14 +60,14 @@ namespace utils {
 
 	bool isEqual(double a, double b, double epsilon /*= 0.0001*/)
 	{
-		return std::abs(a - b) < epsilon;
+		return fabs(a - b) < epsilon;
 	}
 
 	float gcd(float a, float b)
 	{
 		if ( a < b )
 			return gcd(b, a);
-		if ( std::fabs(b) < epsilon )
+		if ( fabs(b) < epsilon )
 			return a;
 		else
 			return ( gcd(b, a - std::floor(a / b) * b) );

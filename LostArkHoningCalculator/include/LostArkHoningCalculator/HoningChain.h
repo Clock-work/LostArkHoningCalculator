@@ -159,8 +159,8 @@ struct BestHoningChain
 			std::cout << std::endl;
 		float averageTries = getAverageTries();
 		std::cout << std::endl << beginning << " has an average cost of " << getAverageCost() << " gold and needs on average "
-			<< averageTries << " tries with a total of " << honingParameter.weaponLeapstoneCost * averageTries << " leapstones and "
-			<< honingParameter.destructionStoneCost * averageTries << " " << upgradeStones;
+			<< averageTries << " tries with a total of " << getAverageLeapstoneCost() << " leapstones and "
+			<< getAverageCrystalCost() << " " << upgradeStones;
 		std::cout << ". If you are unlucky, it can take up to " << elements.size() << " tries and cost up to " << getMaximumCost() << " gold.";
 		std::cout << std::endl;
 	}
@@ -231,6 +231,27 @@ struct BestHoningChain
 		return elements.at(0).honingInput.hasEqualMaterialsUsed(other.elements.at(0).honingInput);
 	}
 
+	float getAverageLeapstoneCost() const
+	{
+		if (isWeapon)
+			return honingParameter.weaponLeapstoneCost * getAverageTries();
+		else
+			return honingParameter.armourLeapstoneCost * getAverageTries();
+	}
+
+	float getAverageCrystalCost() const
+	{
+		if (isWeapon)
+			return honingParameter.destructionStoneCost * getAverageTries();
+		else 
+			return honingParameter.guardianStoneCost * getAverageTries();
+	}
+
+	int getMaximumTries() const
+	{
+		return elements.size();
+	}
+
 };
 
 inline BestHoningChain HoningChainElement::getBestChain(const HoningParameter& honingParameter, bool isWeapon, bool hadBranches) const
@@ -239,3 +260,57 @@ inline BestHoningChain HoningChainElement::getBestChain(const HoningParameter& h
 	previousElements = getBestChain(previousElements, honingParameter, isWeapon);
 	return BestHoningChain(honingParameter, isWeapon, hadBranches, std::move(previousElements));
 }
+
+
+struct HoningChainStats
+{
+	const bool isWeapon;
+	float leapStoneCost = 0.0f;
+	float stoneCrystalsCost = 0.0f;
+	float avgGoldCost = 0.0f;
+	float avgTries = 0.0f;
+	float maxGoldCost = 0.0f;
+	float maxTries = 0.0f;
+
+	HoningChainStats(bool isWeapon)
+		: isWeapon(isWeapon)
+	{
+
+	}
+
+	void addHoningChain(const BestHoningChain& honingChain)
+	{
+		leapStoneCost += honingChain.getAverageLeapstoneCost();
+		stoneCrystalsCost += honingChain.getAverageCrystalCost();
+		avgGoldCost += honingChain.getAverageCost();
+		avgTries += honingChain.getAverageTries();
+		maxGoldCost += honingChain.getMaximumCost();
+		maxTries += honingChain.getMaximumTries();
+	}
+
+	void output(int startLvl, int endLvl) const
+	{
+		std::cout << std::endl;
+		std::string beginning = "Your Armour";
+		if (isWeapon)
+			beginning = "Your Weapon";
+
+		beginning += " from +" + std::to_string(startLvl) + " to +" + std::to_string(endLvl);
+
+		std::string upgradeStones = "guardian stones";
+		if (isWeapon)
+			upgradeStones = "destruction stones";
+		std::cout << std::endl;
+		std::cout << std::endl << beginning << " has in total an average cost of " << avgGoldCost << " gold and needs on average "
+			<< avgTries << " tries with a total of " << leapStoneCost << " leapstones and "
+			<< stoneCrystalsCost << " " << upgradeStones;
+		std::cout << ". If you are unlucky, it can take up to " << maxTries << " tries and cost up to " << maxGoldCost << " gold.";
+		std::cout << std::endl;
+
+		if (!isWeapon)
+		{
+			std::cout << "For the whole Armour, multiply that number with 5." << std::endl;
+		}
+	}
+
+};

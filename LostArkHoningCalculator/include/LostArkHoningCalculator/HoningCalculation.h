@@ -189,9 +189,28 @@ inline BestHoningChain getFullChain(const HoningParameter& honingParameter, bool
 	return fullChainStep(honingParameter, isWeapon, honingInput).getBestChain(honingParameter, isWeapon, false);
 }
 
-void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set);
+void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set, HoningChainStats& totalWeaponCost, HoningChainStats& totalArmourCost);
 
 static void printHoningCalculation()
 {
-	calculateHoningForLevel(HoningConfig::itemHoningLevel, HoningConfig::isIlvl1340Set);
+	int startLvl = HoningConfig::itemHoningLevel;
+	int currentLvl = HoningConfig::itemHoningLevel;
+
+	HoningChainStats totalWeaponCost(true);
+	HoningChainStats totalArmourCost(false);
+
+	while (true)
+	{
+		calculateHoningForLevel(currentLvl++, HoningConfig::isIlvl1340Set, totalWeaponCost, totalArmourCost);
+		setConsoleColour(13);
+		if (currentLvl - 1 != startLvl)
+		{
+			totalWeaponCost.output(startLvl, currentLvl);
+			totalArmourCost.output(startLvl, currentLvl);
+		}
+		std::cout << std::endl << std::endl << "Press return to see the honing calculations for the next itemlevel..." << std::endl;
+		setConsoleColour(15);
+		std::string tmp;
+		std::getline(std::cin, tmp);
+	}
 }

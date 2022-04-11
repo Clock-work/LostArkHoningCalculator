@@ -1,6 +1,6 @@
 #include "LostArkHoningCalculator/HoningCalculation.h"
 
-void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set)
+void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set, HoningChainStats& totalWeaponCost, HoningChainStats& totalArmourCost)
 {
 	HoningParameter honingParameter {currentItemHoningLevel + 1, isIlvl1340Set};
 
@@ -51,6 +51,9 @@ void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set)
 		emptyChainArmour.output();
 
 	std::cout << std::endl;
+
+	totalWeaponCost.addHoningChain(honingChainWeapon);
+	totalArmourCost.addHoningChain(honingChainArmour);
 
 	//double finalGoldCost = ( 1 / ( totalSuccessRate / 100 ) ) * tempGoldCost;
 

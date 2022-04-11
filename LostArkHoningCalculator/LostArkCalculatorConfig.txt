@@ -1,4 +1,4 @@
-Config Version(Don't change!):6
+Config Version(Don't change!):7
 Edit all config values here according to your market prices and your Gear Honing Level 
 
 
@@ -12,19 +12,19 @@ How much Silver would 1 Gold be worth for you?(the gold exchange vendor would gi
 
 
 Auction House Market Prices
-Honor Leapstone:100,120,110,93,97,57,40,32,23,19,15,17
-Great Honor Leapstone:332,420,389,400,410,232,160,150,114,84,78,77
-Simple Oreha Fusion Material:11,14,11,11,9,8,10,9,8,9
-Basic Oreha Fusion Material:14,20,13,12,9,11,10,9,10
-Destruction Stone Crystal(for 10):80,72,46,41,37,21,18,17,14,12,10
-Guardian Stone Crystal(for 10):52,49,33,31,24,39,15,17,16,12,9
-Solar Grace:45,70,45,51,49,38,37,32,27,25,24
-Solar Blessing:186,220,158,171,189,150,137,90,80,85,84
-Solar Protection:405,499,396,385,395,300,298,213,178,198,205,184
-Metallurgy: Basic Welding:4500,2800,2000,950
-Tailoring: Basic Mending:2500,1750,1174,577
-Small Honor Shard Pouch:42,39,24,23,15
-Large Honor Shard Pouch:108,75,84,59
+Honor Leapstone:100,120,110,93,97,57,40,32,23,19,15,17,16
+Great Honor Leapstone:332,420,389,400,410,232,160,150,114,84,78,77,63
+Simple Oreha Fusion Material:11,14,11,11,9,8,10,9,8,9,8
+Basic Oreha Fusion Material:14,20,13,12,9,11,10,9,10,9
+Destruction Stone Crystal(for 10):80,72,46,41,37,21,18,17,14,12,10,8
+Guardian Stone Crystal(for 10):52,49,33,31,24,39,15,17,16,12,9,7
+Solar Grace:45,70,45,51,49,38,37,32,27,25,24,20
+Solar Blessing:186,220,158,171,189,150,137,90,80,85,84,71
+Solar Protection:405,499,396,385,395,300,298,213,178,198,205,184,164
+Metallurgy: Basic Welding:4500,2800,2000,950,509
+Tailoring: Basic Mending:2500,1750,1174,577,384
+Small Honor Shard Pouch:42,39,24,23,15,18
+Large Honor Shard Pouch:108,75,84,59,56
 Powder of Sage:99,95,97
 
 
@@ -35,7 +35,7 @@ Also include Marys Shop prices for honing materials and use the cheapest for cal
 Only Set Your Target Gear ItemLevel here 1340-1500 if you want to compute the best individual gear upgrade count(leave at 0 to disable):0
 Are you using the T3 Stronghold Honing Research for alts with your main being over ilvl 1385?(true/false):false
 Should Honing Books be displayed in the alternative full material use Calculation for comparison(does not affect main Calculation)?(true/false):false
-The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):10
+The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):11
 
 
 Marys Shop

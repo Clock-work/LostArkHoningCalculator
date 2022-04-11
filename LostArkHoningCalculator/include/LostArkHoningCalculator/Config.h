@@ -4,7 +4,7 @@
 
 extern const std::string configPath;
 
-constexpr float configVersion = 6.0f;
+constexpr float configVersion = 7.0f;
 
 namespace HoningConfig {
 	//default maximum amount that can be used per upgrade
