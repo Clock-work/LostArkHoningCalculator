@@ -56,30 +56,30 @@ bool loadConfig()
 	{
 		ConfigFile configFile {configPath, configVersion};
 
-		float crystalCost = configFile.getNextValueFloat(0.1f, 493.0f, "Edit all config values here according to your market prices and your Gear Honing Level \n\n\n\nCurrency Exchange Buy Crystals\nGold Cost");
+		float crystalCost = configFile.getNextValueFloat(0.1f, 450.0f, "Edit all config values here according to your market prices and your Gear Honing Level \n\n\n\nCurrency Exchange Buy Crystals\nGold Cost");
 		float crystalAmount = configFile.getNextValueFloat(0.1f, 95.0f, "Crystals gained");
 		MarysPrices::crystalPrice = crystalCost / crystalAmount;
 
 		HoningConfig::silverAmountPerGold = configFile.getNextValueFloat(0.1f, 500.0f, "\nHow much Silver would 1 Gold be worth for you?(the gold exchange vendor would give 100 Silver for 1 Gold)");
 
-		MarketPrices::honorLeapstone = configFile.getNextValueFloat(0.1f, 23.0f, "\n\n\nAuction House Market Prices\nHonor Leapstone");
-		MarketPrices::greaterHonorLeapstone = configFile.getNextValueFloat(0.1f, 114.0f, "Great Honor Leapstone");
+		MarketPrices::honorLeapstone = configFile.getNextValueFloat(0.1f, 18.0f, "\n\n\nAuction House Market Prices\nHonor Leapstone");
+		MarketPrices::greaterHonorLeapstone = configFile.getNextValueFloat(0.1f, 64.0f, "Great Honor Leapstone");
 
-		MarketPrices::simpleFusion = configFile.getNextValueFloat(0.1f, 9.0f, "Simple Oreha Fusion Material");
-		MarketPrices::basicFusion = configFile.getNextValueFloat(0.1f, 10.0f, "Basic Oreha Fusion Material");
+		MarketPrices::simpleFusion = configFile.getNextValueFloat(0.1f, 8.0f, "Simple Oreha Fusion Material");
+		MarketPrices::basicFusion = configFile.getNextValueFloat(0.1f, 9.0f, "Basic Oreha Fusion Material");
 
-		MarketPrices::destructionStone = configFile.getNextValueFloat(0.1f, 14.0f, "Destruction Stone Crystal(for 10)") / 10.0f;//price per 10 stones
-		MarketPrices::guardianStone = configFile.getNextValueFloat(0.1f, 16.0f, "Guardian Stone Crystal(for 10)") / 10.0f;
+		MarketPrices::destructionStone = configFile.getNextValueFloat(0.1f, 8.0f, "Destruction Stone Crystal(for 10)") / 10.0f;//price per 10 stones
+		MarketPrices::guardianStone = configFile.getNextValueFloat(0.1f, 6.0f, "Guardian Stone Crystal(for 10)") / 10.0f;
 
-		MarketPrices::solarGrace = configFile.getNextValueFloat(0.1f, 27.0f, "Solar Grace");
-		MarketPrices::solarBlessing = configFile.getNextValueFloat(0.1f, 80.0f, "Solar Blessing");
-		MarketPrices::solarProtection = configFile.getNextValueFloat(0.1f, 178.0f, "Solar Protection");
-		MarketPrices::metallurgyWeldingBook = configFile.getNextValueFloat(3.0f, 2000.0f, "Metallurgy: Basic Welding");
-		MarketPrices::tailoringMendingBook = configFile.getNextValueFloat(3.0f, 1174.0f, "Tailoring: Basic Mending");
+		MarketPrices::solarGrace = configFile.getNextValueFloat(0.1f, 24.0f, "Solar Grace");
+		MarketPrices::solarBlessing = configFile.getNextValueFloat(0.1f, 88.0f, "Solar Blessing");
+		MarketPrices::solarProtection = configFile.getNextValueFloat(0.1f, 200.0f, "Solar Protection");
+		MarketPrices::metallurgyWeldingBook = configFile.getNextValueFloat(3.0f, 635.0f, "Metallurgy: Basic Welding");
+		MarketPrices::tailoringMendingBook = configFile.getNextValueFloat(3.0f, 399.0f, "Tailoring: Basic Mending");
 
-		MarketPrices::smallHonorShardPouch = configFile.getNextValueFloat(2.0f, 24.0f, "Small Honor Shard Pouch");
-		MarketPrices::largeHonorShardPouch = configFile.getNextValueFloat(4.0f, 53.0f, "Large Honor Shard Pouch");
-		MarketPrices::powderOfSage = configFile.getNextValueFloat(4.0f, 95.0f, "Powder of Sage");
+		MarketPrices::smallHonorShardPouch = configFile.getNextValueFloat(2.0f, 23.0f, "Small Honor Shard Pouch");
+		MarketPrices::largeHonorShardPouch = configFile.getNextValueFloat(4.0f, 77.0f, "Large Honor Shard Pouch");
+		MarketPrices::powderOfSage = configFile.getNextValueFloat(4.0f, 100.0f, "Powder of Sage");
 
 		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, false, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
 		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar materials after already failing some previous upgrades (otherwise leave at 0)");
