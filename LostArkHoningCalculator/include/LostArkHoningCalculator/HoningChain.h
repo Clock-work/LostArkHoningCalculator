@@ -160,7 +160,7 @@ struct BestHoningChain
 		float averageTries = getAverageTries();
 		std::cout << std::endl << beginning << " has an average cost of " << getAverageCost() << " gold and needs on average "
 			<< averageTries << " tries with a total of " << getAverageLeapstoneCost() << " leapstones and "
-			<< getAverageCrystalCost() << " " << upgradeStones;
+			<< getAverageCrystalCost() << " " << upgradeStones << " and a raw gold cost of " << getAverageRawGoldCost();
 		std::cout << ". If you are unlucky, it can take up to " << elements.size() << " tries and cost up to " << getMaximumCost() << " gold.";
 		std::cout << std::endl;
 	}
@@ -247,6 +247,11 @@ struct BestHoningChain
 			return honingParameter.guardianStoneCost * getAverageTries();
 	}
 
+	float getAverageRawGoldCost() const
+	{
+		return honingParameter.rawGoldCost * getAverageTries();
+	}
+
 	int getMaximumTries() const
 	{
 		return elements.size();
@@ -267,6 +272,7 @@ struct HoningChainStats
 	const bool isWeapon;
 	float leapStoneCost = 0.0f;
 	float stoneCrystalsCost = 0.0f;
+	float rawGoldCost = 0.0f;
 	float avgGoldCost = 0.0f;
 	float avgTries = 0.0f;
 	float maxGoldCost = 0.0f;
@@ -282,6 +288,7 @@ struct HoningChainStats
 	{
 		leapStoneCost += honingChain.getAverageLeapstoneCost();
 		stoneCrystalsCost += honingChain.getAverageCrystalCost();
+		rawGoldCost += honingChain.getAverageRawGoldCost();
 		avgGoldCost += honingChain.getAverageCost();
 		avgTries += honingChain.getAverageTries();
 		maxGoldCost += honingChain.getMaximumCost();
@@ -303,7 +310,7 @@ struct HoningChainStats
 		std::cout << std::endl;
 		std::cout << std::endl << beginning << " has in total an average cost of " << avgGoldCost << " gold and needs on average "
 			<< avgTries << " tries with a total of " << leapStoneCost << " leapstones and "
-			<< stoneCrystalsCost << " " << upgradeStones;
+			<< stoneCrystalsCost << " " << upgradeStones << " and a raw gold cost of " << rawGoldCost;
 		std::cout << ". If you are unlucky, it can take up to " << maxTries << " tries and cost up to " << maxGoldCost << " gold.";
 		std::cout << std::endl;
 

@@ -4,7 +4,7 @@
 
 extern const std::string configPath;
 
-constexpr float configVersion = 7.0f;
+constexpr float configVersion = 8.0f;
 
 namespace HoningConfig {
 	//default maximum amount that can be used per upgrade
@@ -90,6 +90,7 @@ namespace MarysPrices {
 	extern float solarGrace;
 	extern float solarBlessing;
 	extern float solarProtection;
+	extern float smallHonorShardPouch;
 
 	//convert a marys shop offer from crystal to gold cost 
 	// first parameter should be amountGained and second parameter should be crystalCost
@@ -118,3 +119,5 @@ float getHoningBookCost(bool isWeapon, bool isIlvl1340Set);
 float getDestructionStoneCost();
 
 float getGuardianStoneCost();
+
+float getSmallHonorShardPouchCost();

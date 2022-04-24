@@ -26,6 +26,8 @@ void printMarysShop()
 	std::cout << std::endl << "Solar Blessing: " << howMuchCheaper(MarysPrices::solarBlessing, MarketPrices::solarBlessing) << "% cheaper" << std::endl;
 	std::cout << std::endl << "Solar Protection: " << howMuchCheaper(MarysPrices::solarProtection, MarketPrices::solarProtection) << "% cheaper" << std::endl;
 
+	std::cout << std::endl << "Small Honor Shard Pouch: " << howMuchCheaper(MarysPrices::smallHonorShardPouch, MarketPrices::smallHonorShardPouch) << "% cheaper" << std::endl;
+
 	std::cout << std::endl << std::endl << std::endl;
 	setConsoleColour(15);
 }

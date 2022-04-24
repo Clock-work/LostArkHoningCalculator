@@ -47,6 +47,7 @@ public:
 	int weaponLeapstoneCost;
 	int destructionStoneCost;
 	int guardianStoneCost;
+	int rawGoldCost;
 
 	bool isIlvl1340Set;
 
@@ -169,7 +170,7 @@ private:
 		destructionStoneCost = 358;
 		weaponLeapstoneCost = 6;
 		int fusionMat = 4;
-		int rawGoldCost = 300;
+		rawGoldCost = 300;
 		int silverCost = 27500;
 		float honorShards = 84;
 
@@ -283,7 +284,7 @@ private:
 		float goldCost = rawGoldCost + silverCost * (1.0f / static_cast<float>(HoningConfig::silverAmountPerGold));
 		goldCost += weaponLeapstoneCost * getGreaterHonorLeapstoneCost() + fusionMat * getBasicFusionCost();
 		goldCost += destructionStoneCost * getDestructionStoneCost();
-		goldCost += honorShards / 500.0f * MarketPrices::smallHonorShardPouch;
+		goldCost += honorShards / 500.0f * getSmallHonorShardPouchCost();
 		return goldCost;
 	}
 
@@ -293,7 +294,7 @@ private:
 		guardianStoneCost = 216;
 		armourLeapstoneCost = 4;
 		int fusionMat = 4;
-		int rawGoldCost = 160;
+		rawGoldCost = 160;
 		int silverCost = 19300;
 		float honorShards = 58;
 
@@ -392,7 +393,7 @@ private:
 		float goldCost = rawGoldCost + silverCost * (1.0f / static_cast<float>(HoningConfig::silverAmountPerGold));
 		goldCost += armourLeapstoneCost * getGreaterHonorLeapstoneCost() + fusionMat * getBasicFusionCost();
 		goldCost += guardianStoneCost * getGuardianStoneCost();
-		goldCost += honorShards / 500.0f * MarketPrices::smallHonorShardPouch;
+		goldCost += honorShards / 500.0f * getSmallHonorShardPouchCost();
 		return goldCost;
 	}
 
@@ -401,7 +402,7 @@ private:
 		destructionStoneCost = 138;
 		weaponLeapstoneCost = 4;
 		int fusionMat = 0;
-		int rawGoldCost = 0;
+		rawGoldCost = 0;
 		int silverCost = 16000;
 		float honorShards = 50;
 
@@ -446,7 +447,7 @@ private:
 		float goldCost = rawGoldCost + silverCost * ( 1.0f / static_cast<float>( HoningConfig::silverAmountPerGold ) );
 		goldCost += weaponLeapstoneCost * getHonorLeapstoneCost() + fusionMat * getSimpleFusionCost();
 		goldCost += destructionStoneCost * getDestructionStoneCost();
-		goldCost += honorShards / 500.0f * MarketPrices::smallHonorShardPouch;
+		goldCost += honorShards / 500.0f * getSmallHonorShardPouchCost();
 		return goldCost;
 	}
 
@@ -455,7 +456,7 @@ private:
 		guardianStoneCost = 82;
 		armourLeapstoneCost = 2;
 		int fusionMat = 0;
-		int rawGoldCost = 0;
+		rawGoldCost = 0;
 		int silverCost = 11000;
 		float honorShards = 28;
 
@@ -498,7 +499,7 @@ private:
 		float goldCost = rawGoldCost + silverCost * ( 1.0f / static_cast<float>( HoningConfig::silverAmountPerGold ) );
 		goldCost += armourLeapstoneCost * getHonorLeapstoneCost() + fusionMat * getSimpleFusionCost();
 		goldCost += guardianStoneCost * getGuardianStoneCost();
-		goldCost += honorShards / 500.0f * MarketPrices::smallHonorShardPouch;
+		goldCost += honorShards / 500.0f * getSmallHonorShardPouchCost();
 		return goldCost;
 	}
 
