@@ -35,11 +35,12 @@ struct HoningInput
 	}
 
 	//full material use input (is the same as getMaxInput, but this method here can have honing book amount set to 0)
-	inline static HoningInput getFullInput(const HoningParameter& honingParameter)
+	inline static HoningInput getFullInput(const HoningParameter& honingParameter, bool isIlvl1340Set)
 	{
+		bool shouldUseBooks = !isIlvl1340Set && HoningConfig::useBooksForFullMaterialCalc;
 		return HoningInput(1, 0.0f, honingParameter.getMaxSolarGraceAmount(), honingParameter.getMaxSolarBlessingAmount(),
 						   honingParameter.getMaxSolarProtectionAmount(), 
-						   HoningConfig::useBooksForFullMaterialCalc ? HoningConfig::MAX_HONING_BOOK_AMOUNT : 0);
+						   shouldUseBooks ? HoningConfig::MAX_HONING_BOOK_AMOUNT : 0);
 	}
 
 	HoningInput getHoningInputForNextTry(const HoningParameter& honingParameter, char solarGraceToUse, char solarBlessingToUse, char solarProtectionToUse, char honingBookToUse) const

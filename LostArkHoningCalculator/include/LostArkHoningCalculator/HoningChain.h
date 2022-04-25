@@ -199,7 +199,7 @@ struct BestHoningChain
 	//returns if this honing chain was used with no material used and with no additional branches
 	bool isFullMaterialUse() const
 	{
-		return !hadBranches && elements.at(0).honingInput.hasEqualMaterialsUsed(HoningInput::getFullInput(honingParameter));
+		return !hadBranches && elements.at(0).honingInput.hasEqualMaterialsUsed(HoningInput::getFullInput(honingParameter, honingParameter.isIlvl1340Set));
 	}
 
 	//full output of average and tries for the different kinds of honing chains

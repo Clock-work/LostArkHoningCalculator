@@ -17,9 +17,9 @@ void calculateHoningForLevel(int currentItemHoningLevel, bool isIlvl1340Set, Hon
 		honingChainArmour = startHoningChain(honingParameter, false);
 	});
 
-	BestHoningChain fullChainWeapon = getFullChain(honingParameter, true, HoningInput::getFullInput(honingParameter));
+	BestHoningChain fullChainWeapon = getFullChain(honingParameter, true, HoningInput::getFullInput(honingParameter, isIlvl1340Set));
 	BestHoningChain emptyChainWeapon = getFullChain(honingParameter, true, HoningInput::getEmptyInput());
-	BestHoningChain fullChainArmour = getFullChain(honingParameter, false, HoningInput::getFullInput(honingParameter));
+	BestHoningChain fullChainArmour = getFullChain(honingParameter, false, HoningInput::getFullInput(honingParameter, isIlvl1340Set));
 	BestHoningChain emptyChainArmour = getFullChain(honingParameter, false, HoningInput::getEmptyInput());
 	t1.join();
 	t2.join();

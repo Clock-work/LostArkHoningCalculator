@@ -83,12 +83,12 @@ bool loadConfig()
 		MarketPrices::largeHonorShardPouch = configFile.getNextValueFloat(4.0f, 47.0f, "Large Honor Shard Pouch");
 		MarketPrices::powderOfSage = configFile.getNextValueFloat(4.0f, 123.0f, "Powder of Sage");
 
-		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, false, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
+		HoningConfig::isIlvl1340Set = configFile.getNextValueBool(0.1f, true, "\n\nHoning Config\nAre you using the Item Level 1340 Set with Great Honor Leapstones?(true/false)");
 		HoningConfig::baseHoningSuccessRate = configFile.getNextValueFloat(0.1f, 0.0f, "Your current Base Honing Success Rate without Solar materials after already failing some previous upgrades (otherwise leave at 0)");
 		HoningConfig::useMarysShopPrices = configFile.getNextValueBool(2.0f, true, "Also include Marys Shop prices for honing materials and use the cheapest for calculation(true/false)");
 		HoningConfig::targetGearScore = configFile.getNextValueFloat(5.0f, 0.0f, "Only Set Your Target Gear ItemLevel here 1340-1500 if you want to compute the best individual gear upgrade count(leave at 0 to disable)");
-		HoningConfig::useT3StrongholdHoningResearch = configFile.getNextValueBool(4.0f, false, "Are you using the T3 Stronghold Honing Research for alts with your main being over ilvl 1385?(true/false)");
-		HoningConfig::useBooksForFullMaterialCalc = configFile.getNextValueBool(5.0f, false, "Should Honing Books be displayed in the alternative full material use Calculation for comparison(does not affect main Calculation)?(true/false)");
+		HoningConfig::useT3StrongholdHoningResearch = configFile.getNextValueBool(4.0f, true, "Are you using the T3 Stronghold Honing Research for alts with your main being over ilvl 1385?(true/false)");
+		HoningConfig::useBooksForFullMaterialCalc = configFile.getNextValueBool(5.0f, true, "Should Honing Books be displayed in the alternative full material use Calculation for comparison(does not affect main Calculation)?(true/false)");
 		HoningConfig::itemHoningLevel = configFile.getNextValueFloat(0.1f, 0.0f, "The current Honing Item Level of your Gear (the number on your Gear from 0 to 19)");
 
 		MarysPrices::honorLeapstone = MarysPrices::convertCrystalToGoldPrice(configFile.getNextTwoValuesFloat(0.1f, 20.0f, "\n\nMarys Shop\nHonor Leapstone Amount", 40.0f, "Honor Leapstone Crystal Cost"));

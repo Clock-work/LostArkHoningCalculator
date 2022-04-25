@@ -33,9 +33,9 @@ Are you using the Item Level 1340 Set with Great Honor Leapstones?(true/false):t
 Your current Base Honing Success Rate without Solar stuff after failing an upgrade (otherwise leave at 0):0
 Also include Marys Shop prices for honing materials and use the cheapest for calculation(true/false):true
 Only Set Your Target Gear ItemLevel here 1340-1500 if you want to compute the best individual gear upgrade count(leave at 0 to disable):0
-Are you using the T3 Stronghold Honing Research for alts with your main being over ilvl 1385?(true/false):false
-Should Honing Books be displayed in the alternative full material use Calculation for comparison(does not affect main Calculation)?(true/false):false
-The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):15
+Are you using the T3 Stronghold Honing Research for alts with your main being over ilvl 1385?(true/false):true
+Should Honing Books be displayed in the alternative full material use Calculation for comparison(does not affect main Calculation)?(true/false):true
+The current Honing Item Level of your Gear (the number on your Gear from 0 to 19):16
 
 
 Marys Shop
