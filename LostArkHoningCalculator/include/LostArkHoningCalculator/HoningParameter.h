@@ -91,6 +91,11 @@ public:
 			successRateAsDecimal -= 5;
 			totalAdditionalMaterialSuccessRate -= 5;
 		}
+		if (targetItemHoningLevel >= 18)
+		{
+			successRateAsDecimal -= 5;
+			totalAdditionalMaterialSuccessRate -= 5;
+		}
 		if ( targetItemHoningLevel >= 20 )
 		{
 			successRateAsDecimal -= 2;

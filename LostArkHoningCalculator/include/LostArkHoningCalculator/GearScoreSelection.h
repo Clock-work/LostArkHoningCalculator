@@ -48,6 +48,7 @@ static void printBestTargetGearScoreSelection()
 
 		//todo: bool if weapon / gloves / shoulders / helmet should be preferred for damage dealers 
 
+		//each upgrade gives 5/6 ilvl . +16 and afterwards gives 15/6 ilvl 
 
 		static const float lowSetBaseGearScore = 1310;
 		static const int lowSetBaseHoningLevel = 3;
