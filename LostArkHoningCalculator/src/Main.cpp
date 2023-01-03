@@ -132,6 +132,12 @@ int main()
 
 		sleep(2500);
 
+		setConsoleColour(10);
+		std::cout << std::endl << "A Legendary T3 map would be wroth atleast " << 8 * MarketPrices::largeHonorShardPouch +
+			8 * MarketPrices::solarGrace + 4 * MarketPrices::solarBlessing + 4 * MarketPrices::solarProtection 
+			<< " Gold!" << std::endl;
+		setConsoleColour(15);
+
 		printMarysShop();
 
 		printChaosExchange();
